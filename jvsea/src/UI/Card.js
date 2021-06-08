@@ -5,20 +5,20 @@ export default function Card({ Heading, SubHeading, Color }) {
     <div
       style={{
         display: "inline-flex",
-        background: "red",
-        color: Color,
+        background: Color,
+        color: "white",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: "5px",
-        paddingLeft: "28px",
+        padding: "15px",
+        paddingLeft: "35px",
         fontWeight: "600",
-        paddingRight: "28px",
+        paddingRight: "35px",
         borderRadius: "15px",
       }}
     >
-      <div>{Heading}</div>
-      <div>{SubHeading}</div>
+      <div style={{ fontSize: "25px" }}>{Heading}</div>
+      <div style={{ fontSize: "20px" }}>{SubHeading}</div>
     </div>
   );
 }
