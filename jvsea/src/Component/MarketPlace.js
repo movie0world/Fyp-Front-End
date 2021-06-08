@@ -3,8 +3,15 @@ import {
   InputAdornment,
   IconButton,
   TextField,
+  Modal,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+  Button,
+  DialogActions,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import MyButton from "../UI/MyButton";
 import SearchIcon from "@material-ui/icons/Search";
 import Border from "../UI/Border";
@@ -22,9 +29,10 @@ let category = [
 ];
 
 export default function MarketPlace() {
+  const [open, setopen] = useState(false);
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ width: "15%" }}>
+    <div style={{ display: "flex", marginTop: "25px" }}>
+      <div style={{ width: "15%", marginTop: "24px" }}>
         <MyButton
           fillColor="yellow"
           style={{
@@ -49,7 +57,7 @@ export default function MarketPlace() {
           </MyButton>
         ))}
       </div>
-      <div style={{ flex: 1, marginRight: "20px", marginLeft: "10px" }}>
+      <div style={{ flex: 1, marginRight: "40px", marginLeft: "20px" }}>
         <div
           style={{
             display: "flex",
@@ -108,7 +116,12 @@ export default function MarketPlace() {
             </div>
 
             <div style={{ flex: 0.2 }}>
-              <MyButton style={{ display: "flex" }}>Promote</MyButton>
+              <MyButton
+                style={{ display: "flex" }}
+                onPress={() => setopen(true)}
+              >
+                Promote
+              </MyButton>
             </div>
           </div>
           <Spacer space="5" />
@@ -123,6 +136,41 @@ export default function MarketPlace() {
           <Border />
         </div>
       </div>
+
+      <Dialog
+        open={open}
+        onClose={() => setopen(false)}
+        // aria-labelledby="simple-modal-title"
+        // aria-describedby="simple-modal-description"
+      >
+        <DialogContent>
+          <DialogTitle id="alert-dialog-title">
+            {"Your Affiliate Link"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <div
+                style={{
+                  background: "#242323",
+                  padding: "15px",
+                  color: "white",
+                }}
+              >
+                <span>https://material-ui.com/components/dialogs/</span>
+              </div>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              onClick={() => setopen(false)}
+              color="primary"
+            >
+              Copy
+            </Button>
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
