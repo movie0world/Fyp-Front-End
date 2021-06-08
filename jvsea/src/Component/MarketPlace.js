@@ -13,10 +13,11 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import MyButton from "../UI/MyButton";
-import SearchIcon from "@material-ui/icons/Search";
+
 import Border from "../UI/Border";
 import Spacer from "../UI/Spacer";
 import BrandStat from "../UI/BrandStat";
+import Search from "../UI/Search";
 
 let category = [
   "Clothes",
@@ -58,33 +59,12 @@ export default function MarketPlace() {
         ))}
       </div>
       <div style={{ flex: 1, marginRight: "40px", marginLeft: "20px" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-
-            // borderBottom: "5px solid black",
-          }}
-        >
-          <span style={{ fontWeight: "bold", fontSize: "25px" }}>Brands</span>
-
-          <div style={{ marginBottom: "5px" }}>
-            <TextField
-              id="standard-basic"
-              type="text"
-              label="Search"
-              placeholder="Search Here"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
-        </div>
+        <Search
+          Heading="Brands"
+          type="text"
+          label="Search"
+          placeholder="Search Here"
+        />
         <Border space={5} />
         <div>
           <Spacer space="15" />
