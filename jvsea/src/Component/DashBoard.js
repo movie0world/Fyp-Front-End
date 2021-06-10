@@ -1,9 +1,5 @@
 import React from "react";
 import MenuItem from "../UI/MenuItem";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import AttachMoneySharpIcon from "@material-ui/icons/AttachMoneySharp";
-import EditSharpIcon from "@material-ui/icons/EditSharp";
 
 import Card from "../UI/Card";
 import Spacer from "../UI/Spacer";
@@ -13,23 +9,12 @@ import Table from "../UI/Table";
 // import { BorderAll } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import { InputAdornment, TextField } from "@material-ui/core";
+import SideBar from "../UI/SideBar";
 
 export default function DashBoard() {
   return (
     <div style={{ display: "flex" }}>
-      <div
-        style={{
-          background: "gray",
-          display: "flex",
-          flexDirection: "column",
-          width: "80px",
-        }}
-      >
-        <MenuItem Icon={AccountCircleIcon} subheading="Toqeer" />
-        <MenuItem Icon={DashboardIcon} subheading="Dashboard" />
-        <MenuItem Icon={AttachMoneySharpIcon} active subheading="Transaction" />
-        <MenuItem Icon={EditSharpIcon} subheading="Editing" />
-      </div>
+      <SideBar />
       <div style={{ flex: 1, marginLeft: "60px", marginRight: "60px" }}>
         <Spacer space="10" />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
