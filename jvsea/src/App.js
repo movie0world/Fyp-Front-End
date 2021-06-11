@@ -8,20 +8,24 @@ import MarketPlace from "./Component/MarketPlace";
 import DashBoard from "./Component/DashBoard";
 import Card from "./UI/Card";
 import MenuItem from "./UI/MenuItem";
-import Transaction from "./Component/Transaction";
-import Profile from "./Component/Profile";
+import ProTransaction from "./Component/ProTransaction";
+import BrandTransaction from "./Component/BrandTransaction";
+import ProProfile from "./Component/ProProfile";
+import BrandProfile from "./Component/BrandProfile";
 import Home from "./Component/Home";
 
 function App() {
   return (
     <div className="App">
       <Nav />
-      <Home />
-      {/* <DashBoard /> */}
-      {/* <Transaction /> */}
+      {/* <BrandProfile /> */}
+      {/* <Home /> */}
+      <DashBoard />
+      {/* <ProTransaction /> */}
+      {/* <BrandTransaction /> */}
       {/* Login  */}
       {/* Sign ui  */}
-      {/* <Profile />  */}
+      {/* <ProProfile />  */}
       {/* <Card />  */}
       {/* <MenuItem /> */}
       {/* MarketPlace */}
