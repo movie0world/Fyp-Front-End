@@ -12,7 +12,8 @@ import {
   TextField,
 } from "@material-ui/core";
 
-export default function MyTable() {
+export default function MyTable({ test }) {
+  console.log("test", test);
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
   }

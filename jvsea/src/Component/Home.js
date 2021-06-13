@@ -1,10 +1,13 @@
 import React from "react";
+import { useLocation } from "react-router";
 import brand from "../assets/brand.png";
 import first from "../assets/businessman.png";
 import person from "../assets/person.png";
 import Crousel from "../UI/Crousel";
 import MyButton from "../UI/MyButton";
 import Spacer from "../UI/Spacer";
+import Nav from "./Nav";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -114,13 +117,15 @@ export default function Home() {
                 on each sale
               </div>
               <Spacer space="10" />
-              <MyButton
-                fillColor="#a70d4e"
-                style={{ color: "white", border: "2px solid white" }}
-              >
-                {" "}
-                Sign up now
-              </MyButton>{" "}
+              <Link to="/Signup">
+                <MyButton
+                  fillColor="#a70d4e"
+                  style={{ color: "white", border: "2px solid white" }}
+                >
+                  {" "}
+                  Sign up now
+                </MyButton>{" "}
+              </Link>
             </div>
 
             <img src={person} style={{ objectFit: "contain" }} />
@@ -165,13 +170,15 @@ export default function Home() {
                 brand
               </div>
               <Spacer space="10" />
-              <MyButton
-                fillColor="#e59b00"
-                style={{ color: "white", border: "2px solid white" }}
-              >
-                {" "}
-                Sign up now
-              </MyButton>{" "}
+              <Link to="/Signup">
+                <MyButton
+                  fillColor="#e59b00"
+                  style={{ color: "white", border: "2px solid white" }}
+                >
+                  {" "}
+                  Sign up now
+                </MyButton>{" "}
+              </Link>
             </div>
           </div>
         </div>

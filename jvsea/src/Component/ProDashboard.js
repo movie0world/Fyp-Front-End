@@ -11,7 +11,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import { InputAdornment, TextField } from "@material-ui/core";
 import SideBar from "../UI/SideBar";
 
-export default function DashBoard() {
+export default function ProDashBoard() {
+  console.log("promoter");
   return (
     <div style={{ display: "flex" }}>
       <SideBar />

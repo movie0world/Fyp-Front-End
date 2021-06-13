@@ -38,6 +38,7 @@ export default function LogIn() {
     validationSchema: Uservalidation,
     onSubmit: (values) => {
       action.setlogin(true);
+      action.setadmin(true);
       history.replace("/Dashboard");
     },
   });
@@ -97,54 +98,12 @@ export default function LogIn() {
               <div style={{ color: "#B00020" }}>{formik.errors.Password}</div>
             ) : null}
             <Spacer space={10} />
-            <Center>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  flex: 1,
-                }}
-              >
-                <div style={{ display: "flex" }}>
-                  <input
-                    style={{ marginTop: "5px" }}
-                    type="radio"
-                    value="advertiser"
-                    checked={type == "advertiser"}
-                    name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
-                  />
-                  <span style={{ marginLeft: "10px" }}>
-                    <span style={{ fontWeight: "500" }}>Advertiser</span>
-                    <p style={{ color: "#737070" }}>Manage Brand</p>
-                  </span>
-                </div>
-                <div style={{ display: "flex" }}>
-                  <input
-                    style={{ marginTop: "5px" }}
-                    type="radio"
-                    value="promoter"
-                    checked={type == "promoter"}
-                    name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
-                  />
-                  <span style={{ marginLeft: "10px" }}>
-                    <span style={{ fontWeight: "500" }}>Promoter</span>
-                    <p style={{ color: "#737070" }}>Promoter Brands</p>
-                  </span>
-                </div>
-              </div>
-            </Center>
+
             <Spacer space={5} />
 
             <MyButton
               style={{ display: "flex" }}
               onPress={() => {
-                console.log("cliced");
                 formik.handleSubmit();
               }}
             >
@@ -154,7 +113,6 @@ export default function LogIn() {
             <Spacer space={5} />
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
               <span style={{ color: "#737070" }}>Forgot Password?</span>
-              <span style={{ color: "#737070" }}>Not a member yet?</span>
             </div>
           </div>
         </div>

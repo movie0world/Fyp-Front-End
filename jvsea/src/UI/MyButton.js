@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function MyButton({ fillColor, children, onPress, ...props }) {
-  console.log(props.style);
+  // console.log(props.style);
   return (
     <span
       style={{

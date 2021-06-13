@@ -17,13 +17,7 @@ import Card from "../UI/Card";
 // import MenuItem from "../UI/MenuItem";
 import SideBar from "../UI/SideBar";
 import Spacer from "../UI/Spacer";
-const BootstrapInput = withStyles((theme) => ({
-  root: {
-    "label + &": {
-      marginTop: theme.spacing(3),
-    },
-  },
-}));
+
 export default function BrandProfile() {
   //   const classes = useStyles();
 
