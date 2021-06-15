@@ -11,7 +11,7 @@ import {
   Button,
   DialogActions,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import MyButton from "../UI/MyButton";
 
 import Border from "../UI/Border";
@@ -20,6 +20,7 @@ import BrandStat from "../UI/BrandStat";
 import Search from "../UI/Search";
 import { useLocation } from "react-router";
 import Nav from "./Nav";
+import { UserContext } from "../App";
 
 let category = [
   "Clothes",
@@ -33,7 +34,9 @@ let category = [
 
 export default function MarketPlace() {
   const [open, setopen] = useState(false);
+  const [alert, setalert] = useState(false);
   const [Cat, setCat] = useState(category[0]);
+  const action = useContext(UserContext);
 
   return (
     <div>
@@ -106,7 +109,9 @@ export default function MarketPlace() {
               <div style={{ flex: 0.2 }}>
                 <MyButton
                   style={{ display: "flex" }}
-                  onPress={() => setopen(true)}
+                  onPress={() => {
+                    action.user == "promoter" ? setopen(true) : setalert(true);
+                  }}
                 >
                   Promote
                 </MyButton>
@@ -155,6 +160,33 @@ export default function MarketPlace() {
                 color="primary"
               >
                 Copy
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={alert}
+          onClose={() => setalert(false)}
+          // aria-labelledby="simple-modal-title"
+          // aria-describedby="simple-modal-description"
+        >
+          <DialogContent>
+            <DialogTitle id="alert-dialog-title">
+              {"Your Affiliate Link"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                You have to Login as a Promoter to Promote Prodct
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant="outlined"
+                onClick={() => setalert(false)}
+                color="primary"
+              >
+                Login
               </Button>
             </DialogActions>
           </DialogContent>

@@ -29,10 +29,10 @@ export default function AdminDashBoard() {
         <Spacer space="10" />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="red" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="red" />
+          <Card Heading="Total Revenue" SubHeading="2540" Color="green" />
+          <Card Heading="Profit" SubHeading="6841522" Color="green" />
+          <Card Heading="Refunds" SubHeading="618521" Color="red" />
+          <Card Heading="Total Users" SubHeading="6135813" Color="red" />
         </div>
         <Spacer space="10" />
         <div style={{ display: "flex" }}>

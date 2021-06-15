@@ -10,8 +10,10 @@ import Table from "../UI/Table";
 import SearchIcon from "@material-ui/icons/Search";
 import { InputAdornment, TextField } from "@material-ui/core";
 import SideBar from "../UI/SideBar";
+import BrandDashBoard from "../Tables/Brand/DashboardTable";
+import BrandDashBoard2 from "../Tables/Brand/Dashboard2";
 
-export default function BrandDashBoard() {
+export default function BdDashBoard() {
   return (
     <div style={{ display: "flex" }}>
       <SideBar />
@@ -19,10 +21,10 @@ export default function BrandDashBoard() {
         <Spacer space="10" />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="red" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="red" />
+          <Card Heading="Revenue" SubHeading="1450" Color="green" />
+          <Card Heading="Profit" SubHeading="1450" Color="green" />
+          <Card Heading="Refunds" SubHeading="1450" Color="red" />
+          <Card Heading="Pen.Comissions" SubHeading="1450" Color="red" />
         </div>
         <Spacer space="10" />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -41,7 +43,7 @@ export default function BrandDashBoard() {
           </div>
         </div>
         <Border space="5" />
-        <Table />
+        <BrandDashBoard />
         <Spacer space="10" />
         <div
           style={{
@@ -89,7 +91,7 @@ export default function BrandDashBoard() {
           </div>
         </div>
         <Border space="4" />
-        <Table />
+        <BrandDashBoard2 />
       </div>
     </div>
   );

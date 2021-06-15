@@ -6,6 +6,8 @@ import SideBar from "../UI/SideBar";
 import Spacer from "../UI/Spacer";
 import Table from "../UI/Table";
 
+import ProTransaction from "../Tables/Brand/BrandTransaction";
+// import ProDashBoard from "./ProDashboard";
 export default function Transaction() {
   return (
     <div style={{ display: "flex" }}>
@@ -43,7 +45,7 @@ export default function Transaction() {
           </div>
         </div>
         <Border space="5" />
-        <Table />
+        <ProTransaction />
         <Spacer space="10" />
       </div>
     </div>

@@ -6,6 +6,8 @@ export default function Card({ Heading, SubHeading, Color }) {
       style={{
         display: "inline-flex",
         background: Color,
+        flex: 1,
+        marginRight: "10px",
         color: "white",
         flexDirection: "column",
         justifyContent: "center",

@@ -104,9 +104,8 @@ export default function Home() {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ marginLeft: "10px" }}>
               <Spacer space="35" />
-              <div style={{ fontSize: "65px" }}>
-                Become an{"  "}
-                {"  "}
+              <div style={{ fontSize: "63px" }}>
+                Become an {""}
                 <span style={{ color: "#4f2738", fontWeight: "700" }}>
                   AFFILIATE
                 </span>

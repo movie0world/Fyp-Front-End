@@ -30,6 +30,7 @@ export default function Nav({ login }) {
             color: "white",
             fontSize: "40px",
             fontWeight: "bold",
+            marginLeft: "12px",
           }}
         >
           {NavHead ? NavHead : "JVsea"}
@@ -37,15 +38,17 @@ export default function Nav({ login }) {
       </div>
       <div style={{ display: "flex" }}>
         <Link to="/Market">
-          <MyButton
-            fillColor="yellow"
-            style={{ marginRight: "20px" }}
-            onPress={() => {
-              console.log("clicked");
-            }}
-          >
-            Market Place
-          </MyButton>
+          {!(NavHead == "Market") && (
+            <MyButton
+              fillColor="yellow"
+              style={{ marginRight: "20px" }}
+              onPress={() => {
+                console.log("clicked");
+              }}
+            >
+              Marketplace
+            </MyButton>
+          )}
         </Link>
         {!action.login ? (
           <div>

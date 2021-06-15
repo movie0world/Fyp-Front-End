@@ -10,6 +10,8 @@ import Table from "../UI/Table";
 import SearchIcon from "@material-ui/icons/Search";
 import { InputAdornment, TextField } from "@material-ui/core";
 import SideBar from "../UI/SideBar";
+import ProDashboard from "../Tables/Promoter/ProDashboard";
+import ProDashboard2 from "../Tables/Promoter/Dashboard2";
 
 export default function ProDashBoard() {
   console.log("promoter");
@@ -19,11 +21,11 @@ export default function ProDashBoard() {
       <div style={{ flex: 1, marginLeft: "60px", marginRight: "60px" }}>
         <Spacer space="10" />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="green" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="red" />
-          <Card Heading="Total Sale" SubHeading="1450" Color="red" />
+          <Card Heading="Total Click" SubHeading="1450" Color="green" />
+          <Card Heading="Total Sales" SubHeading="1450" Color="green" />
+          <Card Heading="Profit" SubHeading="1450" Color="green" />
+          <Card Heading="Refunds" SubHeading="1450" Color="red" />
+          <Card Heading="Pen.Comissions" SubHeading="1450" Color="red" />
         </div>
         <Spacer space="10" />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -42,7 +44,7 @@ export default function ProDashBoard() {
           </div>
         </div>
         <Border space="5" />
-        <Table />
+        <ProDashboard />
         <Spacer space="10" />
         <div
           style={{
@@ -88,7 +90,7 @@ export default function ProDashBoard() {
           </div>
         </div>
         <Border space="4" />
-        <Table />
+        <ProDashboard2 />
       </div>
     </div>
   );

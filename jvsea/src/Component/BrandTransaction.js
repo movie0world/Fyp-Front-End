@@ -5,8 +5,9 @@ import MenuItem from "../UI/MenuItem";
 import SideBar from "../UI/SideBar";
 import Spacer from "../UI/Spacer";
 import Table from "../UI/Table";
+import BrandTransaction from "../Tables/Brand/BrandTransaction";
 
-export default function BrandTransaction() {
+export default function BdTransaction() {
   return (
     <div style={{ display: "flex" }}>
       <SideBar />
@@ -16,14 +17,18 @@ export default function BrandTransaction() {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Card
             Heading="Comission Recieveds"
-            SubHeading=" RS 1450"
+            SubHeading=" RS 47500"
             Color="green"
           />
-          <Card Heading="Comission Pending" SubHeading=" RS 140" Color="red" />
+          <Card
+            Heading="Comission Pending"
+            SubHeading=" RS 140,000"
+            Color="red"
+          />
           <Card
             Heading="Next DeadLine"
             SubHeading=" 24th June,2021"
-            Color="green"
+            Color="red"
           />
         </div>
         <Spacer space="10" />
@@ -43,7 +48,7 @@ export default function BrandTransaction() {
           </div>
         </div>
         <Border space="5" />
-        <Table />
+        <BrandTransaction />
         <Spacer space="10" />
       </div>
     </div>
