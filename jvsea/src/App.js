@@ -17,6 +17,7 @@ import AdminLogin from "./Component/AdminLogin";
 import BrandTransaction from "./Component/BrandTransaction";
 import ProProfile from "./Component/ProProfile";
 import BrandProfile from "./Component/BrandProfile";
+import ForgetPassword from "./Form/ForgetPassword";
 import Home from "./Component/Home";
 import {
   BrowserRouter as Router,
@@ -77,6 +78,9 @@ function App() {
           <Switch>
             <Route path="/Market">
               <MarketPlace />
+            </Route>
+            <Route path="/Reset_Password">
+              <ForgetPassword />
             </Route>
             <Route path="/admin">
               <AdminLogin />
