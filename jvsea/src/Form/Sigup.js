@@ -17,14 +17,18 @@ import * as Yup from "yup";
 import { UserContext } from "../App";
 import { useHistory } from "react-router-dom";
 
+import ApiCall from "../BackendCall";
+
 const Uservalidation = Yup.object({
-  Email: Yup.string().email("Invalid email address").required(),
-  Name: Yup.string().min(6).max(10).required(),
-  Password: Yup.string()
-    .matches(
-      "(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,}",
-      "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number"
-    )
+  email: Yup.string().email("Invalid email address").required(),
+  name: Yup.string().min(6).max(10).required(),
+  password: Yup.string()
+    .min(8)
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, {
+      excludeEmptyString: true,
+      message:
+        "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number",
+    })
     .required(),
 });
 
@@ -35,18 +39,21 @@ export default function Signup() {
   const action = useContext(UserContext);
   const formik = useFormik({
     initialValues: {
-      Email: "",
-      Name: "",
-      Password: "",
+      email: "",
+      name: "",
+      password: "",
     },
     validationSchema: Uservalidation,
     onSubmit: (values) => {
       setsuccess(true);
       // action.setlogin(true);
       setsuccess(true);
-      setTimeout(() => {
-        history.replace("/Login");
-      }, 2000);
+      ApiCall.post("/user/register", { values }).then((result) =>
+        console.log("backend result", result)
+      );
+      console.log("form values", values);
+
+      // history.replace("/Login");
     },
   });
   return (
@@ -79,34 +86,34 @@ export default function Signup() {
               <TextField
                 fullWidth
                 id="standard-basic"
-                label="Email"
-                name="Name"
+                label="Name"
+                name="name"
                 variant="outlined"
-                placeholder="Enter the Email"
+                placeholder="Enter the Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Name}
+                value={formik.values.name}
               />
             </Center>
-            {formik.touched.Name && formik.errors.Name ? (
-              <div style={{ color: "#B00020" }}>{formik.errors.Name}</div>
+            {formik.touched.name && formik.errors.name ? (
+              <div style={{ color: "#B00020" }}>{formik.errors.name}</div>
             ) : null}
             <Spacer space={10} />
             <Center>
               <TextField
                 fullWidth
                 id="standard-basic"
-                label="Email"
-                name="Email"
+                label="email"
+                name="email"
                 variant="outlined"
-                placeholder="Enter the Email"
+                placeholder="Enter the email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Email}
+                value={formik.values.email}
               />
             </Center>
-            {formik.touched.Email && formik.errors.Email ? (
-              <div style={{ color: "#B00020" }}>{formik.errors.Email}</div>
+            {formik.touched.email && formik.errors.email ? (
+              <div style={{ color: "#B00020" }}>{formik.errors.email}</div>
             ) : null}
             <Spacer space={10} />
             <Center>
@@ -114,16 +121,16 @@ export default function Signup() {
                 fullWidth
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Password}
+                value={formik.values.password}
                 id="standard-basic"
-                label="Password"
-                name="Password"
+                label="password"
+                name="password"
                 variant="outlined"
-                placeholder="Enter the Password"
+                placeholder="Enter the password"
               />
             </Center>
-            {formik.touched.Password && formik.errors.Password ? (
-              <div style={{ color: "#B00020" }}>{formik.errors.Password}</div>
+            {formik.touched.password && formik.errors.password ? (
+              <div style={{ color: "#B00020" }}>{formik.errors.password}</div>
             ) : null}
             <Spacer space={10} />
             <Center>
