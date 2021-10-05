@@ -35,6 +35,9 @@ const Uservalidation = Yup.object({
 export default function Signup() {
   const history = useHistory();
   const [type, settype] = useState("advertiser");
+  const [serverMessage, setserverMessage] = useState(
+    "Your Accound Has Been Created"
+  );
   const [success, setsuccess] = useState(false);
   const action = useContext(UserContext);
   const formik = useFormik({
@@ -48,12 +51,23 @@ export default function Signup() {
       setsuccess(true);
       // action.setlogin(true);
       setsuccess(true);
-      ApiCall.post("/user/register", { values }).then((result) =>
-        console.log("backend result", result)
-      );
-      console.log("form values", values);
+      console.log("role", type);
+      values.Role = type;
+      ApiCall.post("/user/register", values)
+        .then((result) => {
+          if (result.data.All_Input) {
+            return setserverMessage(result.data.message);
+          }
+          if (result.data.Already_Exist) {
+            return setserverMessage(result.data.message);
+          }
+          console.log(result.data);
+          history.replace("Login");
+        })
+        .catch((e) => console.log("not solve data", e));
+      // console.log("form values", values);
 
-      // history.replace("/Login");
+      //
     },
   });
   return (
@@ -69,10 +83,11 @@ export default function Signup() {
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         open={success}
+        autoHideDuration={2000}
         onClose={() => setsuccess(false)}
       >
         <MuiAlert variant="filled" elevation="6" severity="success">
-          Your Account Has been Created.
+          {serverMessage}
         </MuiAlert>
       </Snackbar>
       <BoxShadow>
@@ -118,6 +133,7 @@ export default function Signup() {
             <Spacer space={10} />
             <Center>
               <TextField
+                type="password"
                 fullWidth
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

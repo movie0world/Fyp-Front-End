@@ -4,6 +4,7 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  Snackbar,
 } from "@material-ui/core";
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -14,12 +15,14 @@ import MyButton from "../UI/MyButton";
 import Spacer from "../UI/Spacer";
 import formik, { useFormik } from "formik";
 import * as Yup from "yup";
+import MuiAlert from "@material-ui/lab/Alert";
+import ApiCall from "../BackendCall";
 
 const Uservalidation = Yup.object({
-  Email: Yup.string().email("Invalid email address").required(),
-  Password: Yup.string()
+  email: Yup.string().email("Invalid email address").required(),
+  password: Yup.string()
     .matches(
-      "(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,}",
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
       "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number"
     )
     .required(),
@@ -27,18 +30,36 @@ const Uservalidation = Yup.object({
 
 export default function LogIn() {
   const [type, settype] = useState("advertiser");
+  const [success, setsuccess] = useState(false);
   const action = useContext(UserContext);
   const history = useHistory();
+  const [serverMessage, setserverMessage] = useState("Successfully Login");
 
   const formik = useFormik({
     initialValues: {
-      Email: "",
-      Password: "",
+      email: "",
+      password: "",
     },
     validationSchema: Uservalidation,
     onSubmit: (values) => {
       action.setlogin(true);
-      history.replace("/Dashboard");
+      setsuccess(true);
+      values.Role = type;
+      console.log("role", values);
+      ApiCall.post("/user/login", values)
+        .then((result) => {
+          console.log(result);
+          if (result.data.All_Input) {
+            return setserverMessage(result.data.message);
+          }
+          if (result.data.Wrong_Detail) {
+            return setserverMessage(result.data.message);
+          }
+          history.replace("DashBoard");
+        })
+        .catch((e) => console.log("not solve data", e));
+
+      // history.replace("/Dashboard");
     },
   });
 
@@ -56,6 +77,16 @@ export default function LogIn() {
         border: "1px solid black",
       }}
     >
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        open={success}
+        autoHideDuration={2000}
+        onClose={() => setsuccess(false)}
+      >
+        <MuiAlert variant="filled" elevation="6" severity="success">
+          {serverMessage}
+        </MuiAlert>
+      </Snackbar>
       <BoxShadow>
         <div style={{ width: "400px", padding: "40px" }}>
           <div>
@@ -67,17 +98,17 @@ export default function LogIn() {
               <TextField
                 fullWidth
                 id="standard-basic"
-                label="Email"
-                name="Email"
+                label="email"
+                name="email"
                 variant="outlined"
-                placeholder="Enter the Email"
+                placeholder="Enter the email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Email}
+                value={formik.values.email}
               />
             </Center>
-            {formik.touched.Email && formik.errors.Email ? (
-              <div style={{ color: "#B00020" }}>{formik.errors.Email}</div>
+            {formik.touched.email && formik.errors.email ? (
+              <div style={{ color: "#B00020" }}>{formik.errors.email}</div>
             ) : null}
             <Spacer space={10} />
             <Center>
@@ -85,16 +116,16 @@ export default function LogIn() {
                 fullWidth
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Password}
+                value={formik.values.password}
                 id="standard-basic"
-                label="Password"
-                name="Password"
+                label="password"
+                name="password"
                 variant="outlined"
-                placeholder="Enter the Password"
+                placeholder="Enter the password"
               />
             </Center>
-            {formik.touched.Password && formik.errors.Password ? (
-              <div style={{ color: "#B00020" }}>{formik.errors.Password}</div>
+            {formik.touched.password && formik.errors.password ? (
+              <div style={{ color: "#B00020" }}>{formik.errors.password}</div>
             ) : null}
             <Spacer space={10} />
             <Center>
@@ -153,7 +184,7 @@ export default function LogIn() {
 
             <Spacer space={5} />
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              <span style={{ color: "#737070" }}>Forgot Password?</span>
+              <span style={{ color: "#737070" }}>Forgot password?</span>
               <span style={{ color: "#737070" }}>Not a member yet?</span>
             </div>
           </div>

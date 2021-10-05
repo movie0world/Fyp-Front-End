@@ -9,40 +9,43 @@ const User = require("../../Model/User");
 route.post("/register", async (req, res) => {
   try {
     // Get user input
-    var { name, email, password, role } = req.body;
+    var { name, email, password, Role } = req.body;
+
     email = email.toLowerCase();
     console.log(email);
 
     // Validate user input
     if (!(email && password && name)) {
-      res.status(400).send("All input is required");
+      res.send({
+        message: "All Input Required",
+        All_Input: true,
+      });
     }
 
     // check if user already exist
     // Validate if user exist in our database
     const oldUser = await User.findOne({ email });
 
-    if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+    if (oldUser && oldUser.Role == Role) {
+      return res.send({
+        message: "Email Already Exist. Try different Email or Sign In",
+        Already_Exist: true,
+      });
     }
 
     //Encrypt user password
     encryptedPassword = await bcrypt.hash(password, 10);
 
     // Create user in our database
-    const user = await User.create({
+    const user = await new User({
       name,
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password: encryptedPassword,
-      role,
+      Role: Role,
     });
+    await user.save();
 
     // Create token
-    const token = jwt.sign({ user_id: user._id, email }, "1234567", {
-      expiresIn: "2h",
-    });
-    // save user token
-    user.token = token;
 
     // return new user
     res.status(201).json(user);
@@ -58,14 +61,24 @@ route.post("/login", async (req, res) => {
   try {
     // Get user input
     var { email, password } = req.body;
+    console.log(req.body);
     email = email.toLowerCase();
 
     // Validate user input
     if (!(email && password)) {
-      res.status(400).send("All input is required");
+      res.send({
+        message: "All Input Required",
+        All_Input: true,
+      });
     }
     // Validate if user exist in our database
     const user = await User.findOne({ email });
+    if (!user) {
+      return res.send({
+        message: "Email Not Found",
+        Wrong_Detail: true,
+      });
+    }
     console.log("user", user);
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -82,7 +95,10 @@ route.post("/login", async (req, res) => {
         .status(200)
         .json({ email: user.email, name: user.name, token: user.token });
     }
-    res.status(400).send("Invalid Credentials");
+    res.send({
+      message: "Password is InValid",
+      Wrong_Detail: true,
+    });
   } catch (err) {
     console.log(err);
   }

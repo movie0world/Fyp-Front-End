@@ -3,8 +3,8 @@ const crypto = require("crypto");
 
 var UserSchema = new mongoose.Schema(
   {
+    email: { type: String, required: true, trim: true },
     name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true, trim: true },
     token: { type: String, default: null },
     resetPasswordToken: { type: String, default: null },
@@ -15,7 +15,7 @@ var UserSchema = new mongoose.Schema(
       default: "promoter",
     },
   },
-  { timestamps: true }
+  { timestamps: true, autoIndex: false }
 );
 
 UserSchema.methods.generatePasswordReset = function () {
