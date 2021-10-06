@@ -19,8 +19,9 @@ var UserSchema = new mongoose.Schema(
 );
 
 UserSchema.methods.generatePasswordReset = function () {
+  console.log(Date.now() + 3600000);
   this.resetPasswordToken = crypto.randomBytes(20).toString("hex");
-  this.resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+  this.resetPasswordExpires = new Date(Date.now() + 3600000); //expires in an hour
 };
 
 module.exports = mongoose.model("User", UserSchema);

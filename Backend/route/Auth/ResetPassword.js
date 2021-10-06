@@ -2,7 +2,7 @@ const User = require("../../Model/User");
 
 const express = require("express");
 const nodemailer = require("nodemailer");
-
+const bcrypt = require("bcrypt");
 const route = express.Router();
 
 // const sgMail = require("@sendgrid/mail");
@@ -28,8 +28,7 @@ route.post("/", (req, res) => {
         .save()
         .then((user) => {
           // send email
-          let link =
-            "http://localhost:3000/reset_password/" + user.resetPasswordToken;
+          let link = user.resetPasswordToken;
 
           var transporter = nodemailer.createTransport({
             service: "gmail",
@@ -46,10 +45,9 @@ route.post("/", (req, res) => {
                 */
           var mailOptions = {
             from: "movie0world@gmail.com", //replace with your email
-            to: "ali.gondal453@gmail.com", //replace with your email
+            to: "moive0world@gmail.com", //replace with your email
             subject: `Reset Password`,
-            html: `<h1>Click Here to :: <a href="http://localhost:3000/Reset_Password">Reset Password</a></h1>
-                `,
+            html: `<h1>Click Here to :: <a href="http:localhost:3000/Reset_Password/${link}" target="_blank"> Reset Password</h1>`,
           };
           /*
                  Here comes the important part, sendMail is the method which actually sends email, it takes mail options and
@@ -100,18 +98,20 @@ route.post("/:token", (req, res) => {
 // // @access Public
 
 route.post("/new_password/:token", (req, res) => {
-  console.log("New password");
+  console.log("New password", req.params.token);
   User.findOne({
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() },
-  }).then((user) => {
+  }).then(async (user) => {
+    console.log("user date", user);
     if (!user)
       return res
         .status(401)
         .json({ message: "Password reset token is invalid or has expired." });
 
     //Set the new password
-    user.password = req.body.password;
+    encryptedPassword = await bcrypt.hash(req.body.password, 10);
+    user.password = encryptedPassword;
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
 

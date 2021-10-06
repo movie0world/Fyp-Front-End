@@ -55,6 +55,7 @@ export default function LogIn() {
           if (result.data.Wrong_Detail) {
             return setserverMessage(result.data.message);
           }
+          console.log("user detail", result);
           history.replace("DashBoard");
         })
         .catch((e) => console.log("not solve data", e));

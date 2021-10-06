@@ -31,12 +31,12 @@ const Uservalidation = Yup.object({
 });
 
 export default function NewPassword() {
-  const token = useParams();
+  const { token } = useParams();
   const history = useHistory();
   console.log(history);
   const action = useContext(UserContext);
   const [showform, setshowform] = useState(true);
-  const [serverMessage, setserverMessage] = useState("");
+  const [serverMessage, setserverMessage] = useState({});
   const [success, setsuccess] = useState(false);
 
   useEffect(() => {
@@ -61,13 +61,13 @@ export default function NewPassword() {
           console.log(result);
 
           if (result.status == "200") {
-            setserverMessage(result.data.message);
+            setserverMessage({ err: false, msg: result.data.message });
 
             history.replace("/Login");
           }
         })
         .catch((e) => {
-          setserverMessage(e.response.data.message);
+          setserverMessage({ err: true, msg: e.response.data.message });
           setTimeout(() => {
             history.replace("/Reset_Password");
           }, 2000);
@@ -93,12 +93,16 @@ export default function NewPassword() {
           >
             <Snackbar
               anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-              open={success}
+              open={true}
               autoHideDuration={2000}
               onClose={() => setsuccess(false)}
             >
-              <MuiAlert variant="filled" elevation="6" severity="success">
-                {serverMessage}
+              <MuiAlert
+                variant="filled"
+                elevation="6"
+                severity={!serverMessage.err ? "success" : "error"}
+              >
+                {serverMessage.msg}
               </MuiAlert>
             </Snackbar>
             <BoxShadow>

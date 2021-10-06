@@ -60,7 +60,7 @@ route.post("/login", async (req, res) => {
   // Our login logic starts here
   try {
     // Get user input
-    var { email, password } = req.body;
+    var { email, password, Role } = req.body;
     console.log(req.body);
     email = email.toLowerCase();
 
@@ -72,7 +72,7 @@ route.post("/login", async (req, res) => {
       });
     }
     // Validate if user exist in our database
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, Role });
     if (!user) {
       return res.send({
         message: "Email Not Found",

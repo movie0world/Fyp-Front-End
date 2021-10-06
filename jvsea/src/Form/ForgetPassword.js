@@ -27,7 +27,7 @@ export default function ForgetPassword() {
   const [success, setsuccess] = useState(false);
   const action = useContext(UserContext);
   const history = useHistory();
-  const [serverMessage, setserverMessage] = useState("Successfully Login");
+  const [serverMessage, setserverMessage] = useState({});
 
   const formik = useFormik({
     initialValues: {
@@ -35,22 +35,24 @@ export default function ForgetPassword() {
     },
     validationSchema: Uservalidation,
     onSubmit: (values) => {
+      setserverMessage({ err: "", msg: "" });
       action.setlogin(true);
-      setsuccess(true);
+
       values.Role = type;
 
       ApiCall.post("/reset_password", values)
         .then((result) => {
           console.log(result);
-          if (result.data.All_Input) {
-            return setserverMessage(result.data.message);
-          }
-          if (result.data.Wrong_Detail) {
-            return setserverMessage(result.data.message);
-          }
-          history.replace("DashBoard");
+
+          setserverMessage({ err: false, msg: result.data.message });
+          setsuccess(true);
+          // history.replace("DashBoard");
         })
-        .catch((e) => console.log("not solve data", e));
+        .catch((e) => {
+          console.log("not solve data", e);
+          setserverMessage({ err: true, msg: e.response.data.message });
+          setsuccess(true);
+        });
 
       // history.replace("/Dashboard");
     },
@@ -73,8 +75,12 @@ export default function ForgetPassword() {
           autoHideDuration={2000}
           onClose={() => setsuccess(false)}
         >
-          <MuiAlert variant="filled" elevation="6" severity="success">
-            {serverMessage}
+          <MuiAlert
+            variant="filled"
+            elevation="6"
+            severity={!serverMessage.err ? "success" : "error"}
+          >
+            {serverMessage.msg}
           </MuiAlert>
         </Snackbar>
         <BoxShadow>
