@@ -14,6 +14,8 @@ import AdminDashboard from "./Component/AdminDashboard";
 import AdminTransaction from "./Component/AdminTransaction";
 import AdminLogin from "./Component/AdminLogin";
 
+import NewPassword from "./Form/NewPassword";
+
 import BrandTransaction from "./Component/BrandTransaction";
 import ProProfile from "./Component/ProProfile";
 import BrandProfile from "./Component/BrandProfile";
@@ -79,16 +81,19 @@ function App() {
             <Route path="/Market">
               <MarketPlace />
             </Route>
-            <Route path="/Reset_Password">
+            <Route exact path="/Reset_Password">
               <ForgetPassword />
             </Route>
-            <Route path="/admin">
+            <Route exact path="/Reset_Password/:token">
+              <NewPassword />
+            </Route>
+            <Route exact path="/admin">
               <AdminLogin />
             </Route>
-            <Route path="/Login">
+            <Route exact path="/Login">
               <LogIn />
             </Route>
-            <Route path="/Signup">
+            <Route exact path="/Signup">
               <Signup />
             </Route>
             <Route path="/Dashboard">{() => callComponent("Dash")}</Route>

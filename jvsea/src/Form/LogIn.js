@@ -184,7 +184,9 @@ export default function LogIn() {
 
             <Spacer space={5} />
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              <span style={{ color: "#737070" }}>Forgot password?</span>
+              <Link to="Reset_Password">
+                <span style={{ color: "#737070" }}>Forgot password?</span>
+              </Link>
               <span style={{ color: "#737070" }}>Not a member yet?</span>
             </div>
           </div>

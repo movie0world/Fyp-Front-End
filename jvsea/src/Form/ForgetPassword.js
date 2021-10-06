@@ -38,8 +38,8 @@ export default function ForgetPassword() {
       action.setlogin(true);
       setsuccess(true);
       values.Role = type;
-      console.log("role", values);
-      ApiCall.post("/user/login", values)
+
+      ApiCall.post("/reset_password", values)
         .then((result) => {
           console.log(result);
           if (result.data.All_Input) {
@@ -81,7 +81,7 @@ export default function ForgetPassword() {
           <div style={{ width: "400px", padding: "40px" }}>
             <div>
               <Center>
-                <h2 style={{ textDecoration: "underline" }}>SIGN IN</h2>
+                <h2 style={{ textDecoration: "underline" }}>Reset Pasword</h2>
               </Center>
               <Spacer space={30} />
               <Center>
@@ -153,7 +153,6 @@ export default function ForgetPassword() {
               <MyButton
                 style={{ display: "flex" }}
                 onPress={() => {
-                  console.log("cliced");
                   formik.handleSubmit();
                 }}
               >
