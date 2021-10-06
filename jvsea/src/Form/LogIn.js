@@ -32,7 +32,7 @@ export default function LogIn() {
   const [type, settype] = useState("advertiser");
   const [success, setsuccess] = useState(false);
   const action = useContext(UserContext);
-  const [Token, setToken] = useState("");
+  const [token, setToken] = useState("");
   const history = useHistory();
   const [serverMessage, setserverMessage] = useState("Successfully Login");
 
@@ -46,7 +46,7 @@ export default function LogIn() {
       action.setlogin(true);
       setsuccess(true);
       values.Role = type;
-      console.log("role", values);
+      // console.log("role", values);
       ApiCall.post("/user/login", values)
         .then((result) => {
           console.log(result);
@@ -57,6 +57,7 @@ export default function LogIn() {
             return setserverMessage(result.data.message);
           }
           console.log("user detail", result);
+          setToken(result.data.token);
           history.replace("DashBoard");
         })
         .catch((e) => console.log("not solve data", e));

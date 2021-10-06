@@ -79,7 +79,7 @@ route.post("/login", async (req, res) => {
         Wrong_Detail: true,
       });
     }
-    console.log("user", user);
+    console.log("opemmed");
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
@@ -89,8 +89,8 @@ route.post("/login", async (req, res) => {
 
       // save user token
       user.token = token;
-
-      // user
+      console.log("user", user);
+      // usery
       return res
         .status(200)
         .json({ email: user.email, name: user.name, token: user.token });

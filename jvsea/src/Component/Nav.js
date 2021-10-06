@@ -5,6 +5,8 @@ import MyButton from "../UI/MyButton";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { UserContext } from "../App";
 
+import ApiCall from "../BackendCall";
+
 console.log(Colors.Primary);
 export default function Nav({ login }) {
   const action = useContext(UserContext);
@@ -39,15 +41,28 @@ export default function Nav({ login }) {
       <div style={{ display: "flex" }}>
         <Link to="/Market">
           {!(NavHead == "Market") && (
-            <MyButton
-              fillColor="yellow"
-              style={{ marginRight: "20px" }}
-              onPress={() => {
-                console.log("clicked");
-              }}
-            >
-              Marketplace
-            </MyButton>
+            <div>
+              <MyButton
+                fillColor="yellow"
+                style={{ marginRight: "20px" }}
+                onPress={() => {
+                  console.log("clicked");
+                }}
+              >
+                Marketplace
+              </MyButton>
+              <MyButton
+                fillColor="yellow"
+                style={{ marginRight: "20px" }}
+                onPress={() => {
+                  ApiCall.get("/")
+                    .then((result) => console.log(result))
+                    .catch((e) => console.log(e.response));
+                }}
+              >
+                Send request
+              </MyButton>
+            </div>
           )}
         </Link>
         {!action.login ? (
@@ -68,6 +83,7 @@ export default function Nav({ login }) {
             onPress={() => {
               action.setlogin(false);
               action.setadmin(false);
+              localStorage.removeItem("token");
               history.replace("/");
             }}
           >

@@ -2,5 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({ baseURL: "http://localhost:4000/" });
 
-export default instance.defaults.headers.common["x-access-token"] =
-  localStorage.getItem("token");
+instance.defaults.headers.common["x-access-token"] = JSON.parse(
+  localStorage.getItem("token")
+);
+export default instance;
