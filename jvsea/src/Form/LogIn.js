@@ -32,6 +32,7 @@ export default function LogIn() {
   const [type, settype] = useState("advertiser");
   const [success, setsuccess] = useState(false);
   const action = useContext(UserContext);
+  const [Token, setToken] = useState("");
   const history = useHistory();
   const [serverMessage, setserverMessage] = useState("Successfully Login");
 
@@ -68,6 +69,11 @@ export default function LogIn() {
     console.log("context value", action);
     action.setuser(type);
   }, [type]);
+
+  useEffect(() => {
+    localStorage.setItem("token", JSON.stringify(token));
+  }, [token]);
+
   return (
     <div
       style={{
