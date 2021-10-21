@@ -24,7 +24,7 @@ app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", auth, website);
 
-app.get("/", auth, (req, res) => {
+app.get("/tracker", (req, res) => {
   res.send("Authorized user");
 });
 
