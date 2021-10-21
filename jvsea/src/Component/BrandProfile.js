@@ -17,6 +17,7 @@ import Card from "../UI/Card";
 // import MenuItem from "../UI/MenuItem";
 import SideBar from "../UI/SideBar";
 import Spacer from "../UI/Spacer";
+import BrandProfileComponent from "./BrandProfileComponent";
 
 export default function BrandProfile() {
   //   const classes = useStyles();
@@ -76,90 +77,7 @@ export default function BrandProfile() {
           />
         </div>
         <Spacer space="20" />
-        <div style={{ fontWeight: "bold", fontSize: "25px" }}>Brand Detail</div>
-        <Border space="5" />
-        <Spacer space="10" />
-        <div>
-          <div style={{ display: "flex" }}>
-            <TextField
-              fullWidth
-              style={{ marginRight: "12px" }}
-              value="Toqeer"
-              id="standard-basic"
-              label="Name"
-              variant="outlined"
-            />
-            <FormControl
-              variant="outlined"
-              fullWidth
-              style={{ marginRight: "12px" }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Category
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={cat}
-                onChange={(event) => setcat(event.target.value)}
-                label="Category"
-              >
-                <MenuItem value={10}>Technology</MenuItem>
-                <MenuItem value={20}>Health</MenuItem>
-                <MenuItem value={30}>News</MenuItem>
-              </Select>
-            </FormControl>
-
-            <TextField
-              style={{ marginRight: "12px" }}
-              value="10%"
-              fullWidth
-              id="standard-basic"
-              label="Comission"
-              variant="outlined"
-            />
-            <TextField
-              style={{ marginRight: "12px" }}
-              fullWidth
-              value="lorem ipsom sklfjlskfjskld"
-              id="standard-basic"
-              label="Description"
-              variant="outlined"
-            />
-          </div>
-          <Spacer space="10" />
-          <div style={{ display: "flex" }}>
-            <TextField
-              style={{ marginRight: "12px" }}
-              value="< script src='https://toqeer.js'/>"
-              id="standard-basic"
-              label="Integration Code"
-              variant="outlined"
-            />
-            <FormControl
-              variant="outlined"
-              style={{
-                marginRight: "12px",
-              }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Status
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={cat}
-                onChange={(event) => setcat(event.target.value)}
-                label="Status"
-              >
-                <MenuItem value={10}>Active</MenuItem>
-                <MenuItem value={20}>Publish</MenuItem>
-                <MenuItem value={30}>Pending</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-        <Spacer space="10" /> <Spacer space="10" />
+        <BrandProfileComponent />
         <div style={{ fontWeight: "bold", fontSize: "25px" }}>Bank Detail</div>
         <Border space="5" />
         <Spacer space="10" />

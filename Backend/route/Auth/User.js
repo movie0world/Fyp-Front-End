@@ -83,6 +83,7 @@ route.post("/login", async (req, res) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
+      console.log("User found");
       const token = jwt.sign({ user_id: user._id, email }, "Toqeer12", {
         expiresIn: "2h",
       });
