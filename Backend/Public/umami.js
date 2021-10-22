@@ -18,6 +18,9 @@
     return url && url.length > 1 && url.endsWith("/") ? url.slice(0, -1) : url;
   }
 
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const { affiliate_id } = Object.fromEntries(urlSearchParams.entries());
+
   if (!script) return;
 
   const attr = (key) => script && script.getAttribute(key);
@@ -72,6 +75,7 @@
       hostname,
       screen,
       language,
+      affiliate_id,
       cache: useCache && sessionStorage.getItem(key),
     };
 
