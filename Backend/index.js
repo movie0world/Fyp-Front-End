@@ -1,12 +1,14 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 const cors = require("cors");
-const port = 4000;
+const port = 3000;
 
 // ========================== Express middleWare =========================
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
 
 // ================= Model & Connection =========================
 require("./Model");
@@ -24,8 +26,10 @@ app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", auth, website);
 
-app.get("/tracker", (req, res) => {
-  res.send("Authorized user");
+app.post("/tracker", (req, res) => {
+  console.log("body", req.body);
+
+  res.send("Toqeer houssain");
 });
 
 app.listen(port, () => {

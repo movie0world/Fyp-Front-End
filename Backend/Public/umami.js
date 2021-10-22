@@ -1,5 +1,5 @@
-import { doNotTrack, hook } from "../lib/web";
-import { removeTrailingSlash } from "../lib/url";
+// import { doNotTrack, hook } from "../lib/web";
+// import { removeTrailingSlash } from "../lib/url";
 
 ((window) => {
   const {
@@ -14,6 +14,10 @@ import { removeTrailingSlash } from "../lib/url";
 
   const script = document.querySelector("script[data-website-id]");
 
+  function removeTrailingSlash(url) {
+    return url && url.length > 1 && url.endsWith("/") ? url.slice(0, -1) : url;
+  }
+
   if (!script) return;
 
   const attr = (key) => script && script.getAttribute(key);
@@ -25,14 +29,14 @@ import { removeTrailingSlash } from "../lib/url";
   const useCache = attr("data-cache");
   const domains = attr("data-domains");
 
-  const disableTracking =
-    localStorage.getItem("umami.disabled") ||
-    (dnt && doNotTrack()) ||
-    (domains &&
-      !domains
-        .split(",")
-        .map((n) => n.trim())
-        .includes(hostname));
+  // const disableTracking =
+  //   localStorage.getItem("umami.disabled") ||
+  //   (dnt && doNotTrack()) ||
+  //   (domains &&
+  //     !domains
+  //       .split(",")
+  //       .map((n) => n.trim())
+  //       .includes(hostname));
 
   const root = hostUrl
     ? removeTrailingSlash(hostUrl)
@@ -59,7 +63,7 @@ import { removeTrailingSlash } from "../lib/url";
   };
 
   const collect = (type, params, uuid) => {
-    if (disableTracking) return;
+    // if (disableTracking) return;
 
     const key = "umami.cache";
 
@@ -78,7 +82,7 @@ import { removeTrailingSlash } from "../lib/url";
     }
 
     post(
-      `${root}/api/collect`,
+      `${root}/tracker`,
       {
         type,
         payload,
@@ -173,9 +177,9 @@ import { removeTrailingSlash } from "../lib/url";
 
   /* Start */
 
-  if (autoTrack && !disableTracking) {
-    history.pushState = hook(history, "pushState", handlePush);
-    history.replaceState = hook(history, "replaceState", handlePush);
+  if (autoTrack) {
+    // history.pushState = hook(history, "pushState", handlePush);
+    // history.replaceState = hook(history, "replaceState", handlePush);
 
     trackView(currentUrl, currentRef);
 
