@@ -24,12 +24,17 @@ const ResetPassword = require("./route/Auth/ResetPassword");
 const website = require("./route/Website/website");
 app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
-app.use("/website", auth, website);
+app.use("/website", website);
 
 app.post("/tracker", (req, res) => {
   console.log("body", req.body);
 
   res.send("Toqeer houssain");
+});
+
+app.get("/redirect", (req, res) => {
+  res.cookie("affiliate_id", "toqeer");
+  res.redirect("https://bestwoodworkingideas.xyz/");
 });
 
 app.listen(port, () => {

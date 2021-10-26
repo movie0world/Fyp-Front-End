@@ -14,6 +14,24 @@
 
   const script = document.querySelector("script[data-website-id]");
 
+  function getCookie(name) {
+    var nameEQ = name + "=";
+
+    var ca = document.cookie.split(";");
+
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == " ") c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  var userEmail = getCookie("affiliate_id");
+  console.log("value of cookies", userEmail);
+
+  //set "user_email" cookie, expires in 30 days
+
   function removeTrailingSlash(url) {
     return url && url.length > 1 && url.endsWith("/") ? url.slice(0, -1) : url;
   }
@@ -73,9 +91,8 @@
     const payload = {
       website: uuid,
       hostname,
-      screen,
-      language,
-      affiliate_id,
+
+      affiliate_id: affiliate_id,
       cache: useCache && sessionStorage.getItem(key),
     };
 
@@ -84,15 +101,15 @@
         payload[key] = params[key];
       });
     }
-
-    post(
-      `${root}/tracker`,
-      {
-        type,
-        payload,
-      },
-      (res) => useCache && sessionStorage.setItem(key, res)
-    );
+    if (getCookie("affiliate_id"))
+      post(
+        `${root}/tracker`,
+        {
+          type,
+          payload,
+        },
+        (res) => useCache && sessionStorage.setItem(key, res)
+      );
   };
 
   const trackView = (url = currentUrl, referrer = currentRef, uuid = website) =>
