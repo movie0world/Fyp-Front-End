@@ -2,7 +2,12 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const cors = require("cors");
+const axios = require("axios");
+const { detect } = require("detect-browser");
 const port = 3000;
+
+// IP KEY
+// 214b1240-3710-11ec-856d-bb3e4f99a06e
 
 // ========================== Express middleWare =========================
 app.use(cors());
@@ -26,15 +31,17 @@ app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", website);
 
-app.post("/tracker", (req, res) => {
-  console.log("body", req.body);
+app.post("/tracker", async (req, res) => {
+  const browser = detect(req.headers["user-agent"]);
+  // const locationaddress = await axios.get(`freegeoip.net/json/${req.ip}`);
+  console.log(browser);
+  console.log(req.body);
 
   res.send("Toqeer houssain");
 });
 
 app.get("/redirect", (req, res) => {
-  res.cookie("affiliate_id", "toqeer");
-  res.redirect("https://bestwoodworkingideas.xyz/");
+  res.redirect("https://bestwoodworkingideas.xyz/?affiliate_id=Toqeer");
 });
 
 app.listen(port, () => {

@@ -1,7 +1,7 @@
 // import { doNotTrack, hook } from "../lib/web";
 // import { removeTrailingSlash } from "../lib/url";
 
-((window) => {
+(async (window) => {
   const {
     screen: { width, height },
     navigator: { language },
@@ -12,25 +12,8 @@
     history,
   } = window;
 
+  var country, city;
   const script = document.querySelector("script[data-website-id]");
-
-  function getCookie(name) {
-    var nameEQ = name + "=";
-
-    var ca = document.cookie.split(";");
-
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  }
-
-  var userEmail = getCookie("affiliate_id");
-  console.log("value of cookies", userEmail);
-
-  //set "user_email" cookie, expires in 30 days
 
   function removeTrailingSlash(url) {
     return url && url.length > 1 && url.endsWith("/") ? url.slice(0, -1) : url;
@@ -38,6 +21,24 @@
 
   const urlSearchParams = new URLSearchParams(window.location.search);
   const { affiliate_id } = Object.fromEntries(urlSearchParams.entries());
+  if (affiliate_id) {
+    window.localStorage.setItem("affiliate_id", affiliate_id);
+  }
+
+  console.log(
+    "vlaue of aaffiliate id",
+    window.localStorage.getItem("affiliate_id", affiliate_id)
+  );
+  console.log("Value of path", pathname);
+
+  async function getlocation() {
+    const res = await fetch(
+      "https://api.freegeoip.app/json?apikey=214b1240-3710-11ec-856d-bb3e4f99a06e"
+    );
+    const data = await res.json();
+    return data;
+  }
+  const dat = await getlocation();
 
   if (!script) return;
 
@@ -88,10 +89,12 @@
 
     const key = "umami.cache";
 
+    console.log(dat.city, dat.country_name);
     const payload = {
       website: uuid,
       hostname,
-
+      country: dat.country_name,
+      city: dat.city,
       affiliate_id: affiliate_id,
       cache: useCache && sessionStorage.getItem(key),
     };
@@ -101,7 +104,10 @@
         payload[key] = params[key];
       });
     }
-    if (getCookie("affiliate_id"))
+    if (
+      window.localStorage.getItem("affiliate_id", affiliate_id) &&
+      pathname == "/terms/"
+    )
       post(
         `${root}/tracker`,
         {
