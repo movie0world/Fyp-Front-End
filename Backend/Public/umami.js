@@ -12,7 +12,6 @@
     history,
   } = window;
 
-  var country, city;
   const script = document.querySelector("script[data-website-id]");
 
   function removeTrailingSlash(url) {
@@ -68,6 +67,15 @@
   let currentUrl = `${pathname}${search}`;
   let currentRef = document.referrer;
 
+  function Integration() {
+    const Int_status = window.localStorage.getItem("Int_Status");
+    if (!Int_status) {
+      window.localStorage.setItem("Int_Status", true);
+      fetch(`${root}/website/inegration/${website}`);
+    }
+  }
+  Integration();
+
   /* Collect metrics */
 
   const post = (url, data, callback) => {
@@ -104,10 +112,7 @@
         payload[key] = params[key];
       });
     }
-    if (
-      window.localStorage.getItem("affiliate_id", affiliate_id) &&
-      pathname == "/terms/"
-    )
+    if (window.localStorage.getItem("affiliate_id", affiliate_id))
       post(
         `${root}/tracker`,
         {

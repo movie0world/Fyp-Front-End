@@ -13,5 +13,13 @@ route.post("/", async (req, res) => {
   });
   res.send({ webid: web.webid, website: web.domain });
 });
+route.get("/inegration/:webid", async (req, res) => {
+  console.log("website staus called how many time");
+  await website.findOneAndUpdate(
+    { webid: req.params.webid },
+    { status: "Active" }
+  );
+  res.status(200).json({ webstatus: "Updated" });
+});
 
 module.exports = route;

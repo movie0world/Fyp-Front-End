@@ -10,6 +10,7 @@ var Webdetail = new mongoose.Schema(
     commission: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    status: { type: String, enum: ["Pending", "Active"], default: "Pending" },
   },
   { timestamps: true, autoIndex: false }
 );
