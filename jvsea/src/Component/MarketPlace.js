@@ -21,6 +21,7 @@ import Search from "../UI/Search";
 import { useLocation } from "react-router";
 import Nav from "./Nav";
 import { UserContext } from "../App";
+import ApiCall from "../BackendCall";
 
 let category = [
   "Clothes",
@@ -37,6 +38,12 @@ export default function MarketPlace() {
   const [alert, setalert] = useState(false);
   const [Cat, setCat] = useState(category[0]);
   const action = useContext(UserContext);
+
+  const createurl = () => {
+    ApiCall.post("/createredirecturl", {
+      webid: "6171506c68108b8309b54da1",
+    }).then((res) => console.log(res.data));
+  };
 
   return (
     <div>
@@ -111,6 +118,7 @@ export default function MarketPlace() {
                   style={{ display: "flex" }}
                   onPress={() => {
                     action.user == "promoter" ? setopen(true) : setalert(true);
+                    createurl();
                   }}
                 >
                   Promote
