@@ -24,6 +24,8 @@
     window.localStorage.setItem("affiliate_id", affiliate_id);
   }
 
+  console.log("value of pathname", pathname);
+
   console.log(
     "vlaue of aaffiliate id",
     window.localStorage.getItem("affiliate_id", affiliate_id)
@@ -112,15 +114,22 @@
         payload[key] = params[key];
       });
     }
-    if (window.localStorage.getItem("affiliate_id", affiliate_id))
-      post(
-        `${root}/tracker`,
-        {
-          type,
-          payload,
-        },
-        (res) => useCache && sessionStorage.setItem(key, res)
-      );
+    if (
+      window.localStorage.getItem("affiliate_id", affiliate_id) &&
+      pathname.match("terms")
+    )
+    const product_name=  document.querySelectorAll(".jvsea__product__name");
+    const product_quantity=document.querySelectorAll(".jvsea__product__quantity");
+    const product_price=document.querySelectorAll(".jvsea__product__price");
+    
+    post(
+      `${root}/tracker`,
+      {
+        type,
+        payload,
+      },
+      (res) => useCache && sessionStorage.setItem(key, res)
+    );
   };
 
   const trackView = (url = currentUrl, referrer = currentRef, uuid = website) =>

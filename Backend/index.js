@@ -35,16 +35,26 @@ app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", website);
 
-app.post("/createredirecturl", auth, (req, res) => {
+app.post("/createredirecturl", auth, async (req, res) => {
   console.log(req.body);
   console.log(req.user);
   var redirectid = v4();
-  RedirectUrl.create({
-    redirectid,
-    user: req.user.user_id,
+  let website = await RedirectUrl.findOne({
     webid: req.body.webid,
-  });
-  res.send(`https://localhost:3000/${redirectid}`);
+    user: req.user.user_id,
+  }).populate("webid");
+
+  console.log("redirect vlaue", website);
+  if (!website) {
+    website = await RedirectUrl.create({
+      redirectid,
+      user: req.user.user_id,
+      webid: req.body.webid,
+    });
+    website = await website.populate("webid");
+    console.log("after creation", website);
+  }
+  res.send(`https://${website.webid.domain}/?affiliate_id=${req.user.user_id}`);
 });
 
 app.post("/tracker", async (req, res) => {
@@ -67,17 +77,18 @@ app.post("/tracker", async (req, res) => {
   res.send("Toqeer houssain");
 });
 
-app.get("/redirect/:redirect", async (req, res) => {
-  const redirectid = req.params.redirect.toString();
-  console.log("value of redirect", redirectid);
-  const result = await RedirectUrl.findOne({
-    redirectid: req.params.redirect,
-  })
-    .populate("webid")
-    .populate("user");
-  console.log("what is vlaue of result", result.webid.domain);
-  // res.send("let see");
-  res.redirect(`https://${result.webid.domain}`);
+app.get("/redirect/:webid", auth, async (req, res) => {
+  let data;
+  try {
+    data = await Tracker.find({
+      user: req.user.user_id,
+      webid: req.params.webid,
+    }).count();
+  } catch (e) {
+    res.send("Not found any record");
+  }
+
+  res.json(data);
 });
 
 app.listen(port, () => {
