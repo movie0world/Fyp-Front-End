@@ -15,19 +15,6 @@ export default function Profile() {
       <div style={{ flex: 1, marginLeft: "60px", marginRight: "60px" }}>
         <Spacer space="20" />
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={{ fontWeight: "bold", fontSize: "25px" }}>
-            Personal Detail
-          </div>
-          <div
-            style={{
-              padding: "3px",
-            }}
-          >
-            id:bilala458
-          </div>
-        </div>
-        <Border space="5" />
         <PromoterProfile />
         <Spacer space="20" />
 

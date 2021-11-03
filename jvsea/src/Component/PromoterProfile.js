@@ -1,30 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { TextField } from "@material-ui/core";
 import ApiCall from "../BackendCall";
 import Spacer from "../UI/Spacer";
+
+import Border from "../UI/Border";
+
 export default function PromoterProfile() {
-  React.useEffect(() => {
-    ApiCall.get("/promoterid")
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e.response.data));
-  }, []);
+  const [data, setdata] = useState({});
 
   const formik = useFormik({
+    enableReinitialize: true,
+
     initialValues: {
-      email: "",
       name: "",
+      email: "",
       phone: "",
       password: "",
     },
 
     onSubmit: (values) => {},
   });
-  formik.initialValues.name = "Toqeer hussain";
+  const getdata = async () => {
+    const response = await ApiCall.get("/promoterid");
+    setdata(response.data);
+    formik.values.name = response.data.name;
+
+    // if (data && data.user) {
+    //   formik.setFieldValue("name", data.user.name);
+    //   formik.setFieldValue("email", data.user.email);
+    //   formik.setFieldValue("phone", data.user.phone);
+    // }
+  };
+  console.log(data);
+  React.useEffect(() => {
+    getdata();
+  }, []);
+
+  formik.values.name = data.user.name;
   console.log(formik.initialValues);
 
   return (
     <div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ fontWeight: "bold", fontSize: "25px" }}>
+          Personal Detail
+        </div>
+        <div
+          style={{
+            padding: "3px",
+          }}
+        >
+          {data.pro_id}
+        </div>
+      </div>
+      <Border space="5" />
       <Spacer space="10" />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
@@ -67,6 +97,7 @@ export default function PromoterProfile() {
           label="Password"
           variant="outlined"
           name="Password"
+          placeholder="Enter Your New Password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
