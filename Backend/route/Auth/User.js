@@ -1,6 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+const Promoter = mongoose.model("Promoter");
 
 const route = express.Router();
 
@@ -46,7 +48,22 @@ route.post("/register", async (req, res) => {
     await user.save();
 
     // Create token
-
+    let pro_id = Math.floor(100000 + Math.random() * 900000);
+    if (user.Role == "promoter") {
+      while (pro_id) {
+        const alreadyexist = await Promoter.findOne({ pro_id });
+        console.log(alreadyexist);
+        if (!alreadyexist) {
+          await Promoter.create({
+            pro_id: `${user.name}_${pro_id}`,
+            user: user,
+          });
+          break;
+        } else {
+          pro_id = Math.floor(100000 + Math.random() * 900000);
+        }
+      }
+    }
     // return new user
     res.status(201).json(user);
   } catch (err) {
@@ -80,6 +97,7 @@ route.post("/login", async (req, res) => {
       });
     }
     console.log("opemmed");
+    console.log(await Promoter.findOne({ user }));
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token

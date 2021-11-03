@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 require("./Model");
 const Tracker = mongoose.model("Tracker");
 const RedirectUrl = mongoose.model("RedirectUrl");
+const Promoter = mongoose.model("Promoter");
 // =========================== Middeleware ===============================
 
 const auth = require("./Middleware/verifyauth");
@@ -34,6 +35,15 @@ const Website = require("./Model/Website");
 app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", website);
+
+app.get("/promoterid", auth, async (req, res) => {
+  console.log("called for promoter id");
+  const poromid = await Promoter.findOne({
+    user: mongoose.Types.ObjectId(req.user.user_id),
+  }).populate("user");
+  console.log("vlaue of promoter", poromid);
+  res.json(poromid);
+});
 
 app.post("/createredirecturl", auth, async (req, res) => {
   console.log(req.body);

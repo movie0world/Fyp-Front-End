@@ -6,8 +6,14 @@ import Card from "../UI/Card";
 import MenuItem from "../UI/MenuItem";
 import SideBar from "../UI/SideBar";
 import Spacer from "../UI/Spacer";
-
+import ApiCall from "../BackendCall";
 export default function Profile() {
+  React.useEffect(() => {
+    ApiCall.get("/promoterid")
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e.response.data));
+  }, []);
+
   return (
     <div style={{ display: "flex" }}>
       <SideBar />

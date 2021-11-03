@@ -3,3 +3,5 @@ require("./User");
 require("./Website");
 require("./tracker");
 require("./RedirectUrl");
+require("./Promoter");
+require("./BankDetail");
