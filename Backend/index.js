@@ -48,10 +48,13 @@ app.get("/promoterid", auth, async (req, res) => {
 app.post("/createredirecturl", auth, async (req, res) => {
   console.log(req.body);
   console.log(req.user);
+  const promter = await Promoter.findOne({
+    user: mongoose.Types.ObjectId(req.user.user_id),
+  }).populate("user");
   var redirectid = v4();
   let website = await RedirectUrl.findOne({
     webid: req.body.webid,
-    user: req.user.user_id,
+    user: promoter,
   }).populate("webid");
 
   console.log("redirect vlaue", website);

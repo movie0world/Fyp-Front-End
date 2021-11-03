@@ -7,13 +7,8 @@ import MenuItem from "../UI/MenuItem";
 import SideBar from "../UI/SideBar";
 import Spacer from "../UI/Spacer";
 import ApiCall from "../BackendCall";
+import PromoterProfile from "./PromoterProfile";
 export default function Profile() {
-  React.useEffect(() => {
-    ApiCall.get("/promoterid")
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e.response.data));
-  }, []);
-
   return (
     <div style={{ display: "flex" }}>
       <SideBar />
@@ -33,41 +28,7 @@ export default function Profile() {
           </div>
         </div>
         <Border space="5" />
-        <Spacer space="10" />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <TextField
-            fullWidth
-            style={{ marginRight: "12px" }}
-            value="Toqeer"
-            id="standard-basic"
-            label="Name"
-            variant="outlined"
-          />
-          <TextField
-            fullWidth
-            style={{ marginRight: "12px" }}
-            value="toqeer@gmail.com"
-            id="standard-basic"
-            label="Email"
-            variant="outlined"
-          />
-          <TextField
-            fullWidth
-            style={{ marginRight: "12px" }}
-            value="+923245242846"
-            id="standard-basic"
-            label="Phone"
-            variant="outlined"
-          />
-          <TextField
-            fullWidth
-            style={{ marginRight: "12px" }}
-            value="*********"
-            id="standard-basic"
-            label="Password"
-            variant="outlined"
-          />
-        </div>
+        <PromoterProfile />
         <Spacer space="20" />
 
         <div style={{ fontWeight: "bold", fontSize: "25px" }}>Bank Detail</div>

@@ -96,6 +96,9 @@ function App() {
             <Route exact path="/Signup">
               <Signup />
             </Route>
+            <Route exact path="/Editing">
+              <ProProfile />
+            </Route>
             <Route path="/Dashboard">{() => callComponent("Dash")}</Route>
             <Route path="/Transaction">
               {() => callComponent("Transaction")}

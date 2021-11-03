@@ -107,9 +107,9 @@ export default function LogIn() {
                 fullWidth
                 id="standard-basic"
                 label="email"
-                name="email"
                 variant="outlined"
                 placeholder="Enter the email"
+                name="email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
