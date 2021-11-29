@@ -109,7 +109,7 @@ app.post("/createredirecturl", auth, async (req, res) => {
   var redirectid = v4();
   let website = await RedirectUrl.findOne({
     webid: req.body.webid,
-    user: promoter,
+    user: promter,
   }).populate("webid");
 
   console.log("redirect vlaue", website);

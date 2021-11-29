@@ -3,6 +3,13 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import MyButton from "../UI/MyButton";
 import ApiCall from "../BackendCall";
+import * as Yup from "yup";
+
+const bankvalidation = Yup.object({
+  bankname: Yup.string().max(20, "length should less than 20").required(),
+  ownername: Yup.string().required(),
+  accountnumber: Yup.number().positive().integer().required(),
+});
 
 export default function Probankdetail() {
   const [data, setdata] = useState(null);
@@ -14,7 +21,7 @@ export default function Probankdetail() {
       ownername: "",
       accountnumber: "",
     },
-
+    validationSchema: bankvalidation,
     onSubmit: async (values) => {
       const response = await ApiCall.post("/bankdetail", values);
       console.log("return value from bank update", response);
@@ -41,37 +48,54 @@ export default function Probankdetail() {
   return (
     <div>
       <div style={{ display: "flex" }}>
-        <TextField
-          style={{ marginRight: "12px" }}
-          name="bankname"
-          id="standard-basic"
-          label="Bank Name"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.bankname}
-        />
-        <TextField
-          style={{ marginRight: "12px" }}
-          name="ownername"
-          id="standard-basic"
-          label="Account Holder"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.ownername}
-        />
-        <TextField
-          style={{ marginRight: "12px" }}
-          name="accountnumber"
-          id="standard-basic"
-          label="Account Number"
-          variant="outlined"
-          type="Number"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.accountnumber}
-        />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TextField
+            style={{ marginRight: "12px" }}
+            name="bankname"
+            id="standard-basic"
+            label="Bank Name"
+            variant="outlined"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.bankname}
+          />
+          {formik.touched.bankname && formik.errors.bankname ? (
+            <div style={{ color: "#B00020" }}>{formik.errors.bankname}</div>
+          ) : null}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TextField
+            style={{ marginRight: "12px" }}
+            name="ownername"
+            id="standard-basic"
+            label="Account Holder"
+            variant="outlined"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.ownername}
+          />
+          {formik.touched.ownername && formik.errors.ownername ? (
+            <div style={{ color: "#B00020" }}>{formik.errors.ownername}</div>
+          ) : null}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TextField
+            style={{ marginRight: "12px" }}
+            name="accountnumber"
+            id="standard-basic"
+            label="Account Number"
+            variant="outlined"
+            type="Number"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.accountnumber}
+          />
+          {formik.touched.accountnumber && formik.errors.accountnumber ? (
+            <div style={{ color: "#B00020" }}>
+              {formik.errors.accountnumber}
+            </div>
+          ) : null}
+        </div>
       </div>
       <div style={{ float: "right", marginTop: "15px", marginBottom: "10px" }}>
         <MyButton
