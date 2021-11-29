@@ -3,6 +3,7 @@ const path = require("path");
 const app = express();
 const cors = require("cors");
 const axios = require("axios");
+const bcrypt = require("bcrypt");
 const { detect, detectOS } = require("detect-browser");
 const port = 3000;
 const mongoose = require("mongoose");
@@ -33,6 +34,7 @@ const UserRoute = require("./route/Auth/User");
 const ResetPassword = require("./route/Auth/ResetPassword");
 const website = require("./route/Website/website");
 const Website = require("./Model/Website");
+const User = require("./Model/User");
 app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", website);
@@ -55,10 +57,11 @@ app.post("/bankdetail", auth, async (req, res) => {
   }).populate("user");
   console.log("datad fdfdfdf", poromid);
   if (poromid) {
-    console.log("i am called")((poromid.bankName = req.body.bankname)),
-      (poromid.ownerName = req.body.ownername),
-      (poromid.accountNumber = req.body.accountnumber),
-      await poromid.save();
+    console.log("i am called");
+    poromid.bankName = req.body.bankname;
+    poromid.ownerName = req.body.ownername;
+    poromid.accountNumber = req.body.accountnumber;
+    await poromid.save();
 
     return res.json({ updated: true });
   } else {
@@ -81,9 +84,25 @@ app.get("/promoterid", auth, async (req, res) => {
   res.json(poromid);
 });
 
+app.post("/promoterid", auth, async (req, res) => {
+  console.log("called for promoter id", req.body);
+  const user = await User.findOne({
+    _id: mongoose.Types.ObjectId(req.user.user_id),
+  });
+
+  console.log("promoter detial", user);
+  user.name = req.body.name;
+  user.email = req.body.email;
+  user.phoneNumber = req.body.phonenumber;
+
+  if (req.body.password) {
+    user.password = await bcrypt.hash(req.body.password, 10);
+  }
+  await user.save();
+  res.json({ updated: true });
+});
+
 app.post("/createredirecturl", auth, async (req, res) => {
-  console.log(req.body);
-  console.log(req.user);
   const promter = await Promoter.findOne({
     user: mongoose.Types.ObjectId(req.user.user_id),
   }).populate("user");

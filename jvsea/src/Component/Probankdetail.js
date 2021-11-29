@@ -30,7 +30,7 @@ export default function Probankdetail() {
     setdata({
       bankname: response.data.bankName,
       ownername: response.data.ownerName,
-      accountnumber: response.data.user.accountNumber,
+      accountnumber: response.data.accountNumber,
     });
   };
   console.log(data);

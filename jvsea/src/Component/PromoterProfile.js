@@ -1,11 +1,25 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { TextField } from "@material-ui/core";
+import { InputAdornment, TextField } from "@material-ui/core";
 import ApiCall from "../BackendCall";
 import Spacer from "../UI/Spacer";
 
 import Border from "../UI/Border";
 import MyButton from "../UI/MyButton";
+import * as Yup from "yup";
+
+const Uservalidation = Yup.object({
+  email: Yup.string().email("Invalid email address").required(),
+  name: Yup.string().min(6).max(10).required(),
+  password: Yup.string()
+    .min(8)
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, {
+      excludeEmptyString: true,
+      message:
+        "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number",
+    })
+    .required(),
+});
 
 export default function PromoterProfile() {
   const [data, setdata] = useState(null);
@@ -17,11 +31,14 @@ export default function PromoterProfile() {
     initialValues: data || {
       name: "",
       email: "",
-      phone: "",
+      phonenumber: "",
       password: "",
     },
-
-    onSubmit: (values) => {},
+    validationSchema: Uservalidation,
+    onSubmit: async (values) => {
+      const response = await ApiCall.post("/promoterid", values);
+      console.log("updated profile", response);
+    },
   });
   const getdata = async () => {
     const response = await ApiCall.get("/promoterid");
@@ -29,11 +46,12 @@ export default function PromoterProfile() {
     setdata({
       name: response.data.user.name,
       email: response.data.user.email,
-      phone: response.data.user.phone,
+      phonenumber: response.data.user.phoneNumber,
     });
     setproid(response.data.pro_id);
   };
   console.log(data);
+
   React.useEffect(() => {
     getdata();
   }, []);
@@ -84,12 +102,17 @@ export default function PromoterProfile() {
           fullWidth
           style={{ marginRight: "12px" }}
           id="standard-basic"
-          label="Phone"
+          label="phonenumber"
           variant="outlined"
-          name="Phone"
+          name="phonenumber"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">+92</InputAdornment>
+            ),
+          }}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.phone}
+          value={formik.values.phonenumber}
         />
 
         <TextField
@@ -98,7 +121,7 @@ export default function PromoterProfile() {
           id="standard-basic"
           label="New Password"
           variant="outlined"
-          name="Phone"
+          name="password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
