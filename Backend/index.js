@@ -22,6 +22,7 @@ require("./Model");
 const Tracker = mongoose.model("Tracker");
 const RedirectUrl = mongoose.model("RedirectUrl");
 const Promoter = mongoose.model("Promoter");
+const BankDetail = mongoose.model("BankDetail");
 // =========================== Middeleware ===============================
 
 const auth = require("./Middleware/verifyauth");
@@ -35,6 +36,41 @@ const Website = require("./Model/Website");
 app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", website);
+
+app.get("/bankdetail", auth, async (req, res) => {
+  const poromid = await BankDetail.findOne({
+    user: mongoose.Types.ObjectId(req.user.user_id),
+  }).populate("user");
+  if (poromid) {
+    return res.json(poromid);
+  } else {
+    return res.json(null);
+  }
+});
+
+app.post("/bankdetail", auth, async (req, res) => {
+  console.log("body data", req.body);
+  const poromid = await BankDetail.findOne({
+    user: mongoose.Types.ObjectId(req.user.user_id),
+  }).populate("user");
+  console.log("datad fdfdfdf", poromid);
+  if (poromid) {
+    console.log("i am called")((poromid.bankName = req.body.bankname)),
+      (poromid.ownerName = req.body.ownername),
+      (poromid.accountNumber = req.body.accountnumber),
+      await poromid.save();
+
+    return res.json({ updated: true });
+  } else {
+    await BankDetail.create({
+      bankName: req.body.bankname,
+      ownerName: req.body.ownername,
+      user: req.user.user_id,
+      accountNumber: req.body.accountnumber,
+    });
+    return res.json(null);
+  }
+});
 
 app.get("/promoterid", auth, async (req, res) => {
   console.log("called for promoter id");

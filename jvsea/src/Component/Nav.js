@@ -84,6 +84,10 @@ export default function Nav({ login }) {
               action.setlogin(false);
               action.setadmin(false);
               localStorage.removeItem("token");
+
+              ApiCall.defaults.headers.common["x-access-token"] = JSON.parse(
+                localStorage.getItem("token")
+              );
               history.replace("/");
             }}
           >

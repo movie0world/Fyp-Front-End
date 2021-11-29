@@ -8,6 +8,7 @@ import SideBar from "../UI/SideBar";
 import Spacer from "../UI/Spacer";
 import ApiCall from "../BackendCall";
 import PromoterProfile from "./PromoterProfile";
+import Probankdetail from "./Probankdetail";
 export default function Profile() {
   return (
     <div style={{ display: "flex" }}>
@@ -22,29 +23,7 @@ export default function Profile() {
 
         <Border space="5" />
         <Spacer space="10" />
-        <div style={{ display: "flex" }}>
-          <TextField
-            style={{ marginRight: "12px" }}
-            value="HBL"
-            id="standard-basic"
-            label="Bank Name"
-            variant="outlined"
-          />
-          <TextField
-            style={{ marginRight: "12px" }}
-            value="Toqeer Hussain"
-            id="standard-basic"
-            label="Account Holder"
-            variant="outlined"
-          />
-          <TextField
-            style={{ marginRight: "12px" }}
-            value="12458963177"
-            id="standard-basic"
-            label="Account Number"
-            variant="outlined"
-          />
-        </div>
+        <Probankdetail />
       </div>
     </div>
   );

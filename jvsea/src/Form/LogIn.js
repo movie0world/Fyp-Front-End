@@ -57,7 +57,8 @@ export default function LogIn() {
             return setserverMessage(result.data.message);
           }
           console.log("user detail", result);
-          setToken(result.data.token);
+
+          localStorage.setItem("token", JSON.stringify(result.data.token));
           history.replace("DashBoard");
         })
         .catch((e) => console.log("not solve data", e));
@@ -71,9 +72,7 @@ export default function LogIn() {
     action.setuser(type);
   }, [type]);
 
-  useEffect(() => {
-    localStorage.setItem("token", JSON.stringify(token));
-  }, [token]);
+  useEffect(() => {}, [token]);
 
   return (
     <div

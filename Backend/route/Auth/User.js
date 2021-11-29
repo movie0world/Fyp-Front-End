@@ -112,7 +112,7 @@ route.post("/login", async (req, res) => {
       // usery
       return res
         .status(200)
-        .json({ email: user.email, name: user.name, token: user.token });
+        .json({ email: user.email, name: user.name, token });
     }
     res.send({
       message: "Password is InValid",
