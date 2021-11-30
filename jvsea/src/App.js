@@ -38,6 +38,7 @@ function App() {
   const [user, setuser] = useState("advertiser");
   const [login, setlogin] = useState(false);
   const [admin, setadmin] = useState(false);
+
   console.log("from app", user);
   console.log("from app login", login);
 
@@ -52,7 +53,8 @@ function App() {
           <ProTransaction />
         )
       ) : null;
-    else if (value == "Editing")
+    else if (value == "Editing") {
+      console.log("called editing");
       return login ? (
         user == "advertiser" ? (
           <BrandProfile />
@@ -60,6 +62,7 @@ function App() {
           <ProProfile />
         )
       ) : null;
+    }
     return login ? (
       admin ? (
         <AdminDashboard />
@@ -96,9 +99,12 @@ function App() {
             <Route exact path="/Signup">
               <Signup />
             </Route>
-            <Route exact path="/Editing">
+            {/* <Route exact path="/brandprofile">
+              <BrandProfile />
+            </Route> */}
+            {/* <Route exact path="/Editing">
               <ProProfile />
-            </Route>
+            </Route> */}
             <Route path="/Dashboard">{() => callComponent("Dash")}</Route>
             <Route path="/Transaction">
               {() => callComponent("Transaction")}

@@ -183,14 +183,22 @@ export default function PromoterProfile() {
           />
         </div>
       </div>
-      <div style={{ float: "right", marginTop: "15px", marginBottom: "10px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginTop: "0px",
+
+          marginBottom: "10px",
+        }}
+      >
         <MyButton
           style={{ display: "flex" }}
           onPress={() => formik.handleSubmit()}
         >
           Update
         </MyButton>
-      </div>{" "}
+      </div>
     </div>
   );
 }

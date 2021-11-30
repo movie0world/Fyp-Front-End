@@ -39,10 +39,11 @@ app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", website);
 
-app.get("/bankdetail", auth, async (req, res) => {
+app.get("/bankdetail/", auth, async (req, res) => {
   const poromid = await BankDetail.findOne({
     user: mongoose.Types.ObjectId(req.user.user_id),
   }).populate("user");
+  console.log("bank detail of user", poromid);
   if (poromid) {
     return res.json(poromid);
   } else {
@@ -76,11 +77,19 @@ app.post("/bankdetail", auth, async (req, res) => {
 });
 
 app.get("/promoterid", auth, async (req, res) => {
-  console.log("called for promoter id");
+  console.log(req.user);
+
+  const user = await User.findById(req.user.user_id);
+  console.log("value of adverister user", user);
+  if (user) {
+    return res.json({ user: user });
+  }
+
   const poromid = await Promoter.findOne({
     user: mongoose.Types.ObjectId(req.user.user_id),
   }).populate("user");
-  console.log("vlaue of promoter", poromid);
+
+  console.log("value of promote", poromid);
   res.json(poromid);
 });
 

@@ -10,6 +10,7 @@ import ApiCall from "../BackendCall";
 import PromoterProfile from "./PromoterProfile";
 import Probankdetail from "./Probankdetail";
 export default function Profile() {
+  console.log("it is promoter profile");
   return (
     <div style={{ display: "flex" }}>
       <SideBar />

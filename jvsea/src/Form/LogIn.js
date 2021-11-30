@@ -43,7 +43,6 @@ export default function LogIn() {
     },
     validationSchema: Uservalidation,
     onSubmit: (values) => {
-      action.setlogin(true);
       setsuccess(true);
       values.Role = type;
       // console.log("role", values);
@@ -59,6 +58,7 @@ export default function LogIn() {
           console.log("user detail", result);
 
           localStorage.setItem("token", JSON.stringify(result.data.token));
+          action.setlogin(true);
           history.replace("DashBoard");
         })
         .catch((e) => console.log("not solve data", e));
@@ -71,8 +71,6 @@ export default function LogIn() {
     console.log("context value", action);
     action.setuser(type);
   }, [type]);
-
-  useEffect(() => {}, [token]);
 
   return (
     <div
@@ -150,9 +148,7 @@ export default function LogIn() {
                     value="advertiser"
                     checked={type == "advertiser"}
                     name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
+                    onChange={() => settype(type == "promoter" && "advertiser")}
                   />
                   <span style={{ marginLeft: "10px" }}>
                     <span style={{ fontWeight: "500" }}>Advertiser</span>
@@ -166,9 +162,7 @@ export default function LogIn() {
                     value="promoter"
                     checked={type == "promoter"}
                     name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
+                    onChange={() => settype(type == "advertiser" && "promoter")}
                   />
                   <span style={{ marginLeft: "10px" }}>
                     <span style={{ fontWeight: "500" }}>Promoter</span>

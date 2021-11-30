@@ -97,7 +97,7 @@ export default function Probankdetail() {
           ) : null}
         </div>
       </div>
-      <div style={{ float: "right", marginTop: "15px", marginBottom: "10px" }}>
+      <div style={{ float: "right", marginTop: "0px", marginBottom: "10px" }}>
         <MyButton
           style={{ display: "flex" }}
           onPress={() => formik.handleSubmit()}
