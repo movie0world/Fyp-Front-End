@@ -88,6 +88,7 @@ route.post("/login", async (req, res) => {
         All_Input: true,
       });
     }
+    console.log("data recireved", req.body);
     // Validate if user exist in our database
     const user = await User.findOne({ email, Role });
     if (!user) {
@@ -102,7 +103,7 @@ route.post("/login", async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       console.log("User found");
-      const token =await jwt.sign({ user_id: user._id, email }, "Toqeer12", {
+      const token = await jwt.sign({ user_id: user._id, email }, "Toqeer12", {
         expiresIn: "2h",
       });
 

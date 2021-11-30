@@ -12,18 +12,22 @@ route.post("/", auth, async (req, res) => {
     user: mongoose.Types.ObjectId(req.user.user_id),
   });
   if (webfound) {
-    const web = await website.findByIdAndUpdate({
-      ...req.body,
-      webid: v4(),
-      user: req.user.user_id,
-    });
-    res.send({ webid: web.webid, website: web.domain });
+    const web = await website.findOneAndUpdate(
+      { user: mongoose.Types.ObjectId(req.user.user_id) },
+      {
+        ...req.body,
+      },
+      { new: true }
+    );
+    console.log("updated value ", web);
+    res.send({ webid: web.webid, website: web.domain, updated: true });
   } else {
     const web = await website.create({
       ...req.body,
       webid: v4(),
       user: req.user.user_id,
     });
+
     res.send({ webid: web.webid, website: web.domain });
   }
 });

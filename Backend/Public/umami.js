@@ -71,6 +71,7 @@
 
   function Integration() {
     const Int_status = window.localStorage.getItem("Int_Status");
+    console.log("status", Int_status);
     if (!Int_status) {
       window.localStorage.setItem("Int_Status", true);
       fetch(`${root}/website/inegration/${website}`);
@@ -118,18 +119,18 @@
       window.localStorage.getItem("affiliate_id", affiliate_id) &&
       pathname.match("terms")
     )
-    const product_name=  document.querySelectorAll(".jvsea__product__name");
-    const product_quantity=document.querySelectorAll(".jvsea__product__quantity");
-    const product_price=document.querySelectorAll(".jvsea__product__price");
-    
-    post(
-      `${root}/tracker`,
-      {
-        type,
-        payload,
-      },
-      (res) => useCache && sessionStorage.setItem(key, res)
-    );
+      // const product_name=  document.querySelectorAll(".jvsea__product__name");
+      // const product_quantity=document.querySelectorAll(".jvsea__product__quantity");
+      // const product_price=document.querySelectorAll(".jvsea__product__price");
+
+      post(
+        `${root}/tracker`,
+        {
+          type,
+          payload,
+        },
+        (res) => useCache && sessionStorage.setItem(key, res)
+      );
   };
 
   const trackView = (url = currentUrl, referrer = currentRef, uuid = website) =>

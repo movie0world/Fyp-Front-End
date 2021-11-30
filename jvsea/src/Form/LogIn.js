@@ -148,7 +148,9 @@ export default function LogIn() {
                     value="advertiser"
                     checked={type == "advertiser"}
                     name="user"
-                    onChange={() => settype(type == "promoter" && "advertiser")}
+                    onChange={() =>
+                      settype(type == "advertiser" ? "promoter" : "advertiser")
+                    }
                   />
                   <span style={{ marginLeft: "10px" }}>
                     <span style={{ fontWeight: "500" }}>Advertiser</span>
@@ -162,7 +164,9 @@ export default function LogIn() {
                     value="promoter"
                     checked={type == "promoter"}
                     name="user"
-                    onChange={() => settype(type == "advertiser" && "promoter")}
+                    onChange={() =>
+                      settype(type == "advertiser" ? "promoter" : "advertiser")
+                    }
                   />
                   <span style={{ marginLeft: "10px" }}>
                     <span style={{ fontWeight: "500" }}>Promoter</span>
