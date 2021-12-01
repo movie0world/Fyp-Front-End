@@ -97,7 +97,7 @@ route.post("/login", async (req, res) => {
         Wrong_Detail: true,
       });
     }
-    console.log("opemmed");
+    console.log("opemmed", user);
     console.log(await Promoter.findOne({ user }));
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -113,7 +113,7 @@ route.post("/login", async (req, res) => {
       // usery
       return res
         .status(200)
-        .json({ email: user.email, name: user.name, token });
+        .json({ email: user.email, name: user.name, token, Role });
     }
     res.send({
       message: "Password is InValid",

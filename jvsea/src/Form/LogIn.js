@@ -55,7 +55,7 @@ export default function LogIn() {
           if (result.data.Wrong_Detail) {
             return setserverMessage(result.data.message);
           }
-          console.log("user detail", result);
+          console.log("user detail", result.data);
 
           localStorage.setItem("token", JSON.stringify(result.data.token));
           action.setlogin(true);
@@ -148,9 +148,7 @@ export default function LogIn() {
                     value="advertiser"
                     checked={type == "advertiser"}
                     name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
+                    onChange={() => settype(type == "promoter" && "advertiser")}
                   />
                   <span style={{ marginLeft: "10px" }}>
                     <span style={{ fontWeight: "500" }}>Advertiser</span>
@@ -164,9 +162,7 @@ export default function LogIn() {
                     value="promoter"
                     checked={type == "promoter"}
                     name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
+                    onChange={() => settype(type == "advertiser" && "promoter")}
                   />
                   <span style={{ marginLeft: "10px" }}>
                     <span style={{ fontWeight: "500" }}>Promoter</span>

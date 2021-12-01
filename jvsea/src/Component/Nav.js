@@ -35,7 +35,7 @@ export default function Nav({ login }) {
             marginLeft: "12px",
           }}
         >
-          {NavHead ? NavHead : "JVsea"}
+          {NavHead ? (NavHead == "404" ? "JVsea" : NavHead) : "JVsea"}
         </p>
       </div>
       <div style={{ display: "flex" }}>

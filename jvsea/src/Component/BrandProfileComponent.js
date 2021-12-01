@@ -36,9 +36,21 @@ const websitvalidation = Yup.object({
   commission: Yup.number().required(),
 });
 
+let itemcategory = [
+  { 10: "Clothes" },
+  { 20: "Shoes" },
+  { 30: "Jewlary" },
+  { 40: "Electronics" },
+  { 50: "Bookings" },
+  { 60: "Courses" },
+  { 90: "Furniture" },
+];
+
 export default function BrandProfileComponent() {
   const [data, setdata] = useState(null);
   const [status, setstatus] = useState("Pending");
+
+  console.log("detail", data);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -63,14 +75,15 @@ export default function BrandProfileComponent() {
 
   const getdata = async () => {
     const response = await ApiCall.get("/website");
-    setdata({
-      brand: response.data.brand,
-      commission: response.data.commission,
-      description: response.data.description,
-      category: response.data.category,
-      domain: response.data.domain,
-    });
-    setstatus(response.data.status);
+    if (response.data)
+      setdata({
+        brand: response.data && response.data.brand,
+        commission: response.data && response.data.commission,
+        description: response.data && response.data.description,
+        category: response.data && response.data.category,
+        domain: response.data && response.data.domain,
+      });
+    setstatus(response.data && response.data.status);
     console.log("what is data", response.data);
   };
   useEffect(() => {
@@ -121,9 +134,13 @@ export default function BrandProfileComponent() {
               onBlur={formik.handleBlur}
               label="Category"
             >
-              <MenuItem value={10}>Technology</MenuItem>
-              <MenuItem value={20}>Health</MenuItem>
-              <MenuItem value={30}>News</MenuItem>
+              {itemcategory.map((item) => {
+                console.log("key", item);
+                console.log("key value", item.value);
+                let itemvlaue = Object.keys(item);
+                console.log("value of key", itemvlaue);
+                return <MenuItem value={item.key}>{item.value}</MenuItem>;
+              })}
             </Select>
           </FormControl>
         </div>
@@ -192,7 +209,7 @@ export default function BrandProfileComponent() {
           variant="outlined"
           inputProps={{ readOnly: true }}
           placeholder="Enter the Commission"
-          value={status}
+          value={status || "Pending"}
         />
       </div>
       <Spacer space="10" />

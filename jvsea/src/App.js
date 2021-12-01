@@ -30,7 +30,9 @@ import {
   useParams,
   useLocation,
   useHistory,
+  Redirect,
 } from "react-router-dom";
+import FourOFour from "./Component/FourOFour";
 
 export const UserContext = createContext();
 
@@ -43,6 +45,9 @@ function App() {
   console.log("from app login", login);
 
   const callComponent = (value) => {
+    console.log("token", JSON.parse(localStorage.getItem("token")));
+    setlogin(JSON.parse(localStorage.getItem("token")));
+
     if (value == "Transaction")
       return login ? (
         admin ? (
@@ -52,7 +57,9 @@ function App() {
         ) : (
           <ProTransaction />
         )
-      ) : null;
+      ) : (
+        <Redirect to="/404" />
+      );
     else if (value == "Editing") {
       console.log("called editing");
       return login ? (
@@ -61,7 +68,9 @@ function App() {
         ) : (
           <ProProfile />
         )
-      ) : null;
+      ) : (
+        <Redirect to="/404" />
+      );
     }
     return login ? (
       admin ? (
@@ -71,7 +80,9 @@ function App() {
       ) : (
         <PromoterDashBoard />
       )
-    ) : null;
+    ) : (
+      <Redirect to="/404" />
+    );
   };
   return (
     <div className="App">
@@ -93,6 +104,7 @@ function App() {
             <Route exact path="/admin">
               <AdminLogin />
             </Route>
+
             <Route exact path="/Login">
               <LogIn />
             </Route>
@@ -110,8 +122,14 @@ function App() {
               {() => callComponent("Transaction")}
             </Route>
             <Route path="/Editing">{() => callComponent("Editing")}</Route>
-            <Route path="/">
+            <Route exact path="/">
               <Home />
+            </Route>
+            <Route exact path="/404">
+              <FourOFour />
+            </Route>
+            <Route>
+              <FourOFour />
             </Route>
           </Switch>
         </Router>

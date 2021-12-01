@@ -111,6 +111,10 @@ app.post("/promoterid", auth, async (req, res) => {
   res.json({ updated: true });
 });
 
+app.get("/marketitem", (req, res) => {
+  website.find({ category: req.body.category });
+});
+
 app.post("/createredirecturl", auth, async (req, res) => {
   const promter = await Promoter.findOne({
     user: mongoose.Types.ObjectId(req.user.user_id),

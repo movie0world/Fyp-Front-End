@@ -160,34 +160,29 @@ export default function Signup() {
                 <div style={{ display: "flex" }}>
                   <input
                     style={{ marginTop: "5px" }}
-                    style={{ marginTop: "5px" }}
                     type="radio"
-                    value="promoter"
-                    checked={type == "promoter"}
+                    value="advertiser"
+                    checked={type == "advertiser"}
                     name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
+                    onChange={() => settype(type == "promoter" && "advertiser")}
                   />
                   <span style={{ marginLeft: "10px" }}>
-                    <span style={{ fontWeight: "500" }}>Promoter</span>
-                    <p style={{ color: "#737070" }}>Promoter Brands</p>
+                    <span style={{ fontWeight: "500" }}>Advertiser</span>
+                    <p style={{ color: "#737070" }}>Manage Brand</p>
                   </span>
                 </div>
                 <div style={{ display: "flex" }}>
                   <input
                     style={{ marginTop: "5px" }}
                     type="radio"
-                    value="advertiser"
-                    checked={type == "advertiser"}
+                    value="promoter"
+                    checked={type == "promoter"}
                     name="user"
-                    onChange={() =>
-                      settype(type == "advertiser" ? "promoter" : "advertiser")
-                    }
+                    onChange={() => settype(type == "advertiser" && "promoter")}
                   />
                   <span style={{ marginLeft: "10px" }}>
-                    <span style={{ fontWeight: "500" }}>Advertiser</span>
-                    <p style={{ color: "#737070" }}>Manage Brand</p>
+                    <span style={{ fontWeight: "500" }}>Promoter</span>
+                    <p style={{ color: "#737070" }}>Promoter Brands</p>
                   </span>
                 </div>
               </div>
