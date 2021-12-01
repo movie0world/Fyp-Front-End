@@ -104,19 +104,12 @@ function App() {
             <Route exact path="/admin">
               <AdminLogin />
             </Route>
-
             <Route exact path="/Login">
               <LogIn />
             </Route>
             <Route exact path="/Signup">
               <Signup />
             </Route>
-            {/* <Route exact path="/brandprofile">
-              <BrandProfile />
-            </Route> */}
-            {/* <Route exact path="/Editing">
-              <ProProfile />
-            </Route> */}
             <Route path="/Dashboard">{() => callComponent("Dash")}</Route>
             <Route path="/Transaction">
               {() => callComponent("Transaction")}

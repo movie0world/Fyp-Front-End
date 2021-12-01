@@ -135,11 +135,13 @@ export default function BrandProfileComponent() {
               label="Category"
             >
               {itemcategory.map((item) => {
-                console.log("key", item);
-                console.log("key value", item.value);
-                let itemvlaue = Object.keys(item);
-                console.log("value of key", itemvlaue);
-                return <MenuItem value={item.key}>{item.value}</MenuItem>;
+                let itemvalue = Object.entries(item);
+                console.log("value of key", Object.keys(item));
+                return (
+                  <MenuItem value={Object.keys(item)[0]}>
+                    {Object.values(item)[0]}
+                  </MenuItem>
+                );
               })}
             </Select>
           </FormControl>

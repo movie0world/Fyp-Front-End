@@ -24,6 +24,7 @@ const Tracker = mongoose.model("Tracker");
 const RedirectUrl = mongoose.model("RedirectUrl");
 const Promoter = mongoose.model("Promoter");
 const BankDetail = mongoose.model("BankDetail");
+// const Website = mongoose.model("Website");
 // =========================== Middeleware ===============================
 
 const auth = require("./Middleware/verifyauth");
@@ -111,8 +112,11 @@ app.post("/promoterid", auth, async (req, res) => {
   res.json({ updated: true });
 });
 
-app.get("/marketitem", (req, res) => {
-  website.find({ category: req.body.category });
+app.get("/marketitem/:cat", async (req, res) => {
+  console.log("caterg", req.params.cat);
+  let web = await Website.find({ category: req.params.cat });
+  console.log("web called", web);
+  res.json(web);
 });
 
 app.post("/createredirecturl", auth, async (req, res) => {
