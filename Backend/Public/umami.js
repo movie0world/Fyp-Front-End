@@ -116,13 +116,38 @@
       });
     }
     if (
-      window.localStorage.getItem("affiliate_id", affiliate_id) &&
-      pathname.match("terms")
-    )
-      // const product_name=  document.querySelectorAll(".jvsea__product__name");
-      // const product_quantity=document.querySelectorAll(".jvsea__product__quantity");
-      // const product_price=document.querySelectorAll(".jvsea__product__price");
+      // window.localStorage.getItem("affiliate_id", affiliate_id) &&
+      pathname.match("thank-you") ||
+      pathname.match("thank_you") ||
+      pathname.match("thankyou")
+    ) {
+      var product_name = [
+        ...document.querySelectorAll(".jvsea__product__name"),
+      ].map((item) => item.innerHTML);
 
+      var product_quantity = [
+        ...document.querySelectorAll(".jvsea__product__quantity"),
+      ].map((item) => item.innerHTML.split(";")[1]);
+
+      var product_price = [
+        ...document.querySelectorAll(".jvsea__product__price"),
+      ].map((item) => item.innerText);
+
+      product_price.shift();
+
+      var productdata = [];
+
+      console.log("data value", product_name, product_price, product_quantity);
+
+      for (var i = 0; i < product_name.length; i++) {
+        var data = {};
+        data.name = product_name[i];
+        data.qty = product_quantity[i];
+        data.price = product_price[i];
+        productdata.push(data);
+      }
+
+      console.log("data", productdata);
       post(
         `${root}/tracker`,
         {
@@ -131,6 +156,7 @@
         },
         (res) => useCache && sessionStorage.setItem(key, res)
       );
+    }
   };
 
   const trackView = (url = currentUrl, referrer = currentRef, uuid = website) =>
