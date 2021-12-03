@@ -12,7 +12,7 @@ var UserSchema = new mongoose.Schema(
     phoneNumber: { type: Number, trim: true },
     Role: {
       type: String,
-      enum: ["advertiser", "promoter"],
+      enum: ["advertiser", "promoter", "admin"],
       default: "promoter",
     },
   },

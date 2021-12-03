@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   InputAdornment,
@@ -12,9 +12,20 @@ import {
   TextField,
 } from "@material-ui/core";
 import Spacer from "../../UI/Spacer";
+import ApiCall from "../../BackendCall";
 
 export default function MyTable({ promoter }) {
-  //   console.log("test", test);
+  const [data, setdata] = useState([]);
+
+  const getdata = async () => {
+    const response = await ApiCall.get(`/toppromoter`);
+    setdata(response.data);
+    console.log("top promoter", response.data);
+  };
+  useEffect(() => {
+    getdata();
+  }, []);
+  // console.log("test", test);
   function createData(Bname, Clicks, Conversions, Sales, Return, Returnp, com) {
     return { Bname, Clicks, Conversions, Sales, Return, Returnp, com };
   }
@@ -35,7 +46,7 @@ export default function MyTable({ promoter }) {
               <TableCell style={{ fontWeight: "bold" }}>#</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Promoter id</TableCell>
               <TableCell align="right" style={{ fontWeight: "bold" }}>
-                Sales
+                Clicks
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }} align="right">
                 Sales
@@ -44,7 +55,7 @@ export default function MyTable({ promoter }) {
                 Conversions
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }} align="right">
-                Comissions
+                Commission
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }} align="right">
                 Return
@@ -55,18 +66,27 @@ export default function MyTable({ promoter }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {data.map((row, index) => (
               <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.Bname}</TableCell>
-                <TableCell align="right">{row.Clicks}</TableCell>
-                <TableCell align="right">{row.Conversions}</TableCell>
-                <TableCell align="right">{row.Sales}</TableCell>
-                <TableCell align="right">{row.Return}</TableCell>
-                <TableCell align="right">{row.Returnp}</TableCell>
-                <TableCell align="right">{row.com}</TableCell>
+                <TableCell align="left">{row.brand}</TableCell>
+                <TableCell align="right">{row.click}</TableCell>
+                <TableCell align="right">{row.sale}</TableCell>
+                <TableCell align="right">{row.conversion}</TableCell>
+                <TableCell align="right">
+                  {" "}
+                  <span>&#8360;</span> {row.commission}
+                </TableCell>
+                <TableCell align="right">
+                  {" "}
+                  <span>&#8360;</span> {row.Return || "0"}
+                </TableCell>
+                <TableCell align="right">
+                  {" "}
+                  <span>&#8360;</span> {row.com || "0"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

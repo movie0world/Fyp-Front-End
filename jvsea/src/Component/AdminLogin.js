@@ -19,14 +19,13 @@ const Uservalidation = Yup.object({
   Email: Yup.string().email("Invalid email address").required(),
   Password: Yup.string()
     .matches(
-      "(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,}",
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
       "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number"
     )
     .required(),
 });
 
 export default function LogIn() {
-  const [type, settype] = useState("advertiser");
   const action = useContext(UserContext);
   const history = useHistory();
 
@@ -43,10 +42,6 @@ export default function LogIn() {
     },
   });
 
-  useEffect(() => {
-    console.log("context value", action);
-    action.setuser(type);
-  }, [type]);
   return (
     <div
       style={{

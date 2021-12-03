@@ -47,6 +47,7 @@ function App() {
   const callComponent = (value) => {
     console.log("token", JSON.parse(localStorage.getItem("token")));
     setlogin(JSON.parse(localStorage.getItem("token")));
+    setlogin(true);
 
     if (value == "Transaction")
       return login ? (

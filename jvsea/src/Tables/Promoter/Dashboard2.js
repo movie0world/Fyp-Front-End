@@ -56,7 +56,7 @@ export default function MyTable({ promoter }) {
                 Conversions
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }} align="right">
-                Comissions
+                Commission
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }} align="right">
                 Return
@@ -75,10 +75,19 @@ export default function MyTable({ promoter }) {
                 <TableCell align="left">{row.brand}</TableCell>
                 <TableCell align="right">{row.click}</TableCell>
                 <TableCell align="right">{row.sale}</TableCell>
-                <TableCell align="right">{row.conversions}</TableCell>
-                <TableCell align="right">{row.commission}</TableCell>
-                <TableCell align="right">{row.Returnp}</TableCell>
-                <TableCell align="right">{row.com}</TableCell>
+                <TableCell align="right">{row.conversion}</TableCell>
+                <TableCell align="right">
+                  {" "}
+                  <span>&#8360;</span> {row.commission}
+                </TableCell>
+                <TableCell align="right">
+                  {" "}
+                  <span>&#8360;</span> {row.Return || "0"}
+                </TableCell>
+                <TableCell align="right">
+                  {" "}
+                  <span>&#8360;</span> {row.com || "0"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

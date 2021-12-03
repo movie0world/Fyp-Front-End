@@ -6,7 +6,6 @@ var RedirectUrl = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Promoter",
-      default: null,
     },
     webid: { type: mongoose.Schema.Types.ObjectId, ref: "Website" },
   },

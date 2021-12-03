@@ -191,6 +191,66 @@ app.get("/sales", auth, async (req, res) => {
   res.json(sale);
 });
 
+app.get("/salesadver", auth, async (req, res) => {
+  const website = await Website.findOne({ user: req.user.user_id }).populate(
+    "user"
+  );
+  const sale = await Sale.find({ webid: website._id })
+    .populate("webid")
+    .populate("promoterId")
+    .populate("track");
+  res.json(sale);
+});
+
+app.get("/toppromoter", auth, async (req, res) => {
+  const website = await Website.findOne({ user: req.user.user_id }).populate(
+    "user"
+  );
+  console.log("webid", website);
+  const registedsite = await RedirectUrl.find({ webid: website._id }).populate(
+    "webid"
+  );
+  let topbrand = [];
+  let totalcommision = 0;
+  console.log("registed site", registedsite);
+  for (let i = 0; i < registedsite.length; i++) {
+    const trackcount = await Tracker.find({
+      promoterId: registedsite[i].user,
+      webid: website._id,
+    }).count();
+    const salecount = await Sale.find({
+      promoterId: registedsite[i].user,
+      webid: website._id,
+    }).count();
+    const salecomissioin = await Sale.find({
+      promoterId: registedsite[i].user,
+      webid: website._id,
+    })
+      .populate("promoterId")
+      .populate("webid");
+    salecomissioin.map((item) =>
+      item.products.map(
+        (v) =>
+          (totalcommision =
+            totalcommision + parseFloat(v.price.replace(/,/g, "")))
+      )
+    );
+    let topbranddata = {};
+    console.log("brand conversion", (salecount * 100) / trackcount);
+    topbranddata.brand = salecomissioin[0].promoterId.pro_id;
+    topbranddata.sale = salecount;
+    topbranddata.click = trackcount;
+    topbranddata.commission = Math.floor(
+      (totalcommision * salecomissioin[0].webid.commission) / 100
+    );
+    topbranddata.conversion = Math.floor((salecount * 100) / trackcount);
+
+    topbrand.push(topbranddata);
+  }
+
+  res.json(topbrand);
+});
+
 app.get("/topbrand", auth, async (req, res) => {
   const promoter = await Promoter.findOne({ user: req.user.user_id }).populate(
     "user"
@@ -222,14 +282,14 @@ app.get("/topbrand", auth, async (req, res) => {
       )
     );
     let topbranddata = {};
-    console.log("brand conversion", (trackcount / salecount) * 100);
+    console.log("brand conversion", (salecount * 100) / trackcount);
     topbranddata.brand = salecomissioin[0].webid.brand;
     topbranddata.sale = salecount;
     topbranddata.click = trackcount;
     topbranddata.commission = Math.floor(
       (totalcommision * salecomissioin[0].webid.commission) / 100
     );
-    topbranddata.conversion = Math.floor((trackcount / salecount) * 100);
+    topbranddata.conversion = Math.floor((salecount * 100) / trackcount);
 
     topbrand.push(topbranddata);
   }
