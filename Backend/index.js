@@ -165,6 +165,7 @@ app.post("/tracker", async (req, res) => {
     city: req.body.payload.city,
     country: req.body.payload.country,
     browser: browser.name,
+    promoterId: promotervalue._id,
     webid: webid._id,
     referer: req.body.payload.referrer,
   });
@@ -188,6 +189,52 @@ app.get("/sales", auth, async (req, res) => {
     .populate("webid")
     .populate("track");
   res.json(sale);
+});
+
+app.get("/topbrand", auth, async (req, res) => {
+  const promoter = await Promoter.findOne({ user: req.user.user_id }).populate(
+    "user"
+  );
+  const registedsite = await RedirectUrl.find({ user: promoter._id }).populate(
+    "webid"
+  );
+  let topbrand = [];
+  let totalcommision = 0;
+  console.log("registed site", registedsite);
+  for (let i = 0; i < registedsite.length; i++) {
+    const trackcount = await Tracker.find({
+      promoterId: promoter._id,
+      webid: registedsite[i].webid,
+    }).count();
+    const salecount = await Sale.find({
+      promoterId: promoter._id,
+      webid: registedsite[i].webid,
+    }).count();
+    const salecomissioin = await Sale.find({
+      promoterId: promoter._id,
+      webid: registedsite[i].webid,
+    }).populate("webid");
+    salecomissioin.map((item) =>
+      item.products.map(
+        (v) =>
+          (totalcommision =
+            totalcommision + parseFloat(v.price.replace(/,/g, "")))
+      )
+    );
+    let topbranddata = {};
+    console.log("brand conversion", (trackcount / salecount) * 100);
+    topbranddata.brand = salecomissioin[0].webid.brand;
+    topbranddata.sale = salecount;
+    topbranddata.click = trackcount;
+    topbranddata.commission = Math.floor(
+      (totalcommision * salecomissioin[0].webid.commission) / 100
+    );
+    topbranddata.conversion = Math.floor((trackcount / salecount) * 100);
+
+    topbrand.push(topbranddata);
+  }
+
+  res.json(topbrand);
 });
 
 app.get("/redirect/:webid", auth, async (req, res) => {

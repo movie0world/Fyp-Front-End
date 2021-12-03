@@ -105,7 +105,7 @@ export default function MyTable({ promoter }) {
                 Revenue
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }} align="right">
-                Comission
+                Commission
               </TableCell>
             </TableRow>
           </TableHead>
@@ -119,16 +119,38 @@ export default function MyTable({ promoter }) {
                   {row.products.map((item) => (
                     <p>
                       {" "}
-                      <strong>{`${item.name} ,`} </strong>
+                      <strong>
+                        {`${item.name}  ,`}{" "}
+                        <span style={{ fontSize: "10px" }}> &#10005;</span>{" "}
+                        <span>{item.qty}</span>{" "}
+                      </strong>
                     </p>
                   ))}
                 </TableCell>
                 <TableCell align="right">{row.webid.brand}</TableCell>
                 <TableCell align="right">{getdate(row.createdAt)}</TableCell>
                 <TableCell align="right">{gettime(row.createdAt)}</TableCell>
-                <TableCell align="right">{row.track.country}</TableCell>
-                <TableCell align="right">{row.Return}</TableCell>
-                <TableCell align="right">{row.com}</TableCell>
+                <TableCell align="right">{row.track?.city}</TableCell>
+                <TableCell align="right">
+                  <span>&#8360;</span>{" "}
+                  {`${row.products.reduce(
+                    (num1, num2) =>
+                      parseFloat(num2.price.replace(/,/g, "")) + num1,
+                    0
+                  )}`}
+                </TableCell>
+                <TableCell align="right">
+                  <span>&#8360;</span>{" "}
+                  {`${Math.floor(
+                    (row.webid.commission *
+                      row.products.reduce(
+                        (num1, num2) =>
+                          parseFloat(num2.price.replace(/,/g, "")) + num1,
+                        0
+                      )) /
+                      100
+                  )}`}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

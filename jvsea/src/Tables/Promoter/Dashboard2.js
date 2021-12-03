@@ -12,8 +12,20 @@ import {
   TextField,
 } from "@material-ui/core";
 import Spacer from "../../UI/Spacer";
+import { useEffect, useState } from "react";
+import ApiCall from "../../BackendCall";
 
 export default function MyTable({ promoter }) {
+  const [data, setdata] = useState([]);
+
+  const getdata = async () => {
+    const response = await ApiCall.get(`/topbrand`);
+    setdata(response.data);
+    console.log(response.data);
+  };
+  useEffect(() => {
+    getdata();
+  }, []);
   //   console.log("test", test);
   function createData(Bname, Clicks, Conversions, Sales, Return, Returnp, com) {
     return { Bname, Clicks, Conversions, Sales, Return, Returnp, com };
@@ -55,16 +67,16 @@ export default function MyTable({ promoter }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {data.map((row, index) => (
               <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.Bname}</TableCell>
-                <TableCell align="right">{row.Clicks}</TableCell>
-                <TableCell align="right">{row.Conversions}</TableCell>
-                <TableCell align="right">{row.Sales}</TableCell>
-                <TableCell align="right">{row.Return}</TableCell>
+                <TableCell align="left">{row.brand}</TableCell>
+                <TableCell align="right">{row.click}</TableCell>
+                <TableCell align="right">{row.sale}</TableCell>
+                <TableCell align="right">{row.conversions}</TableCell>
+                <TableCell align="right">{row.commission}</TableCell>
                 <TableCell align="right">{row.Returnp}</TableCell>
                 <TableCell align="right">{row.com}</TableCell>
               </TableRow>
