@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MenuItem from "../UI/MenuItem";
 
 import Card from "../UI/Card";
@@ -12,6 +12,7 @@ import { InputAdornment, TextField } from "@material-ui/core";
 import SideBar from "../UI/SideBar";
 import ProDashboard from "../Tables/Promoter/ProDashboard";
 import ProDashboard2 from "../Tables/Promoter/Dashboard2";
+import { AddShoppingCart } from "@material-ui/icons";
 
 export default function ProDashBoard() {
   console.log("promoter");

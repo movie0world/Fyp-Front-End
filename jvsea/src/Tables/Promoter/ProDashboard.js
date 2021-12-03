@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   InputAdornment,
@@ -12,8 +12,31 @@ import {
   TextField,
 } from "@material-ui/core";
 import Spacer from "../../UI/Spacer";
+import ApiCall from "../../BackendCall";
+
+const getdate = (value) => {
+  var today = new Date(value);
+  return (
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+  );
+};
+const gettime = (value) => {
+  var today = new Date(value);
+  return today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+};
 
 export default function MyTable({ promoter }) {
+  const [data, setdata] = useState([]);
+
+  const getdata = async () => {
+    const response = await ApiCall.get(`/sales`);
+    setdata(response.data);
+    console.log(response.data);
+  };
+  useEffect(() => {
+    getdata();
+  }, []);
+
   //   console.log("test", test);
   function createData(Bname, Clicks, Conversions, Sales, Return, Returnp, com) {
     return { Bname, Clicks, Conversions, Sales, Return, Returnp, com };
@@ -87,17 +110,24 @@ export default function MyTable({ promoter }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {data.map((row, index) => (
               <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.Bname}</TableCell>
-                <TableCell align="right">{row.Clicks}</TableCell>
-                <TableCell align="right">{row.Conversions}</TableCell>
-                <TableCell align="right">{row.Sales}</TableCell>
+                <TableCell align="left">
+                  {row.products.map((item) => (
+                    <p>
+                      {" "}
+                      <strong>{`${item.name} ,`} </strong>
+                    </p>
+                  ))}
+                </TableCell>
+                <TableCell align="right">{row.webid.brand}</TableCell>
+                <TableCell align="right">{getdate(row.createdAt)}</TableCell>
+                <TableCell align="right">{gettime(row.createdAt)}</TableCell>
+                <TableCell align="right">{row.track.country}</TableCell>
                 <TableCell align="right">{row.Return}</TableCell>
-                <TableCell align="right">{row.Returnp}</TableCell>
                 <TableCell align="right">{row.com}</TableCell>
               </TableRow>
             ))}

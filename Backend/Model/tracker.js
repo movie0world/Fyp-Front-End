@@ -9,7 +9,7 @@ var Tracker = new mongoose.Schema(
     referer: { type: String, trim: true, default: null },
     promoterId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Promoter",
       default: null,
     },
     webid: { type: mongoose.Schema.Types.ObjectId, ref: "Website" },

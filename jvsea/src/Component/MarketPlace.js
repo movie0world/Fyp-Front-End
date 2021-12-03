@@ -39,13 +39,17 @@ export default function MarketPlace() {
   const [data, setdata] = useState([]);
   const [Cat, setCat] = useState(Object.keys(itemcategory[0])[0]);
   const action = useContext(UserContext);
+  const [redirectwebsite, setredirectwebsite] = useState("");
 
   const history = useHistory();
 
   const createurl = (webid) => {
     ApiCall.post("/createredirecturl", {
       webid,
-    }).then((res) => console.log(res.data));
+    }).then((res) => {
+      console.log("what is value", res.data);
+      setredirectwebsite(res.data);
+    });
   };
 
   console.log("data", data);
@@ -128,10 +132,12 @@ export default function MarketPlace() {
                   <MyButton
                     style={{ display: "flex" }}
                     onPress={() => {
-                      action.user == "promoter"
-                        ? setopen(true)
-                        : setalert(true);
-                      createurl(item._id);
+                      if (action.user == "promoter") {
+                        createurl(item._id);
+                        setopen(true);
+                      } else {
+                        setalert(true);
+                      }
                     }}
                   >
                     Promote
@@ -171,7 +177,7 @@ export default function MarketPlace() {
                     color: "white",
                   }}
                 >
-                  <span>https://material-ui.com/components/dialogs/</span>
+                  <span>{redirectwebsite}</span>
                 </div>
               </DialogContentText>
             </DialogContent>

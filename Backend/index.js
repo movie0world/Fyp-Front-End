@@ -24,6 +24,8 @@ const Tracker = mongoose.model("Tracker");
 const RedirectUrl = mongoose.model("RedirectUrl");
 const Promoter = mongoose.model("Promoter");
 const BankDetail = mongoose.model("BankDetail");
+
+const Sale = mongoose.model("Sale");
 // const Website = mongoose.model("Website");
 // =========================== Middeleware ===============================
 
@@ -36,6 +38,7 @@ const ResetPassword = require("./route/Auth/ResetPassword");
 const website = require("./route/Website/website");
 const Website = require("./Model/Website");
 const User = require("./Model/User");
+
 app.use("/user", UserRoute);
 app.use("/reset_password", ResetPassword);
 app.use("/website", website);
@@ -133,33 +136,58 @@ app.post("/createredirecturl", auth, async (req, res) => {
   if (!website) {
     website = await RedirectUrl.create({
       redirectid,
-      user: req.user.user_id,
+      user: promter,
       webid: req.body.webid,
     });
     website = await website.populate("webid");
     console.log("after creation", website);
   }
-  res.send(`https://${website.webid.domain}/?affiliate_id=${req.user.user_id}`);
+  res.send(`${website.webid.domain}/?affiliate_id=${promter.pro_id}`);
 });
 
 app.post("/tracker", async (req, res) => {
   const browser = detect(req.headers["user-agent"]);
 
   // const locationaddress = await axios.get(`freegeoip.net/json/${req.ip}`);
-  console.log(req.body.payload.referer);
+  console.log(req.body);
   const webid = await Website.findOne({ webid: req.body.payload.website });
-  console.log(webid._id);
+  console.log("web detial", webid);
+  promotervalue = await Promoter.findOne({ pro_id: req.body.affiliate_id });
+  const promoter = await RedirectUrl.findOne({
+    webid: webid._id,
+    user: promotervalue._id,
+  }).populate("user");
 
-  Tracker.create({
+  console.log("vlaue of promoter", promotervalue);
+  console.log("vlaue of promoter", promoter);
+
+  const track = await Tracker.create({
     city: req.body.payload.city,
     country: req.body.payload.country,
     browser: browser.name,
     webid: webid._id,
     referer: req.body.payload.referrer,
   });
-  console.log(req.body);
-
+  console.log("value of track", track._id);
+  if (req.body.data) {
+    const sale = new Sale({
+      promoterId: promoter.user.id,
+      webid: webid.id,
+      track: track._id,
+    });
+    sale.products = req.body.data;
+    await sale.save();
+  }
   res.send("Toqeer houssain");
+});
+
+app.get("/sales", auth, async (req, res) => {
+  const promoter = await Promoter.findOne({ user: req.user.user_id });
+  console.log("promtoer", promoter);
+  const sale = await Sale.find({ promoterId: promoter._id })
+    .populate("webid")
+    .populate("track");
+  res.json(sale);
 });
 
 app.get("/redirect/:webid", auth, async (req, res) => {

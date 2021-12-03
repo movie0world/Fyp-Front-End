@@ -56,7 +56,7 @@ route.post("/register", async (req, res) => {
         if (!alreadyexist) {
           await Promoter.create({
             pro_id: `${user.name}_${pro_id}`,
-            user: user,
+            user: user._id,
           });
           break;
         } else {
@@ -78,6 +78,7 @@ route.post("/login", async (req, res) => {
   try {
     // Get user input
     var { email, password, Role } = req.body;
+
     console.log(req.body);
     email = email.toLowerCase();
 
@@ -111,6 +112,8 @@ route.post("/login", async (req, res) => {
       user.token = token;
       console.log("user", user);
       // usery
+      if (Role == "promoter") {
+      }
       return res
         .status(200)
         .json({ email: user.email, name: user.name, token, Role });

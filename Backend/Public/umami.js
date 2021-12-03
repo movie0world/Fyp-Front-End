@@ -28,7 +28,7 @@
 
   console.log(
     "vlaue of aaffiliate id",
-    window.localStorage.getItem("affiliate_id", affiliate_id)
+    window.localStorage.getItem("affiliate_id")
   );
   console.log("Value of path", pathname);
 
@@ -116,11 +116,12 @@
       });
     }
     if (
-      // window.localStorage.getItem("affiliate_id", affiliate_id) &&
-      pathname.match("thank-you") ||
+      (window.localStorage.getItem("affiliate_id") &&
+        pathname.match("thank-you")) ||
       pathname.match("thank_you") ||
       pathname.match("thankyou")
     ) {
+      var affiliate = window.localStorage.getItem("affiliate_id");
       var product_name = [
         ...document.querySelectorAll(".jvsea__product__name"),
       ].map((item) => item.innerHTML);
@@ -131,7 +132,7 @@
 
       var product_price = [
         ...document.querySelectorAll(".jvsea__product__price"),
-      ].map((item) => item.innerText);
+      ].map((item) => item.innerText.substring(2, item.innerText.length));
 
       product_price.shift();
 
@@ -148,14 +149,30 @@
       }
 
       console.log("data", productdata);
+
       post(
         `${root}/tracker`,
         {
+          affiliate_id: affiliate,
+          data: productdata,
           type,
           payload,
         },
         (res) => useCache && sessionStorage.setItem(key, res)
       );
+    } else {
+      if (window.localStorage.getItem("affiliate_id")) {
+        var affiliate = window.localStorage.getItem("affiliate_id");
+        post(
+          `${root}/tracker`,
+          {
+            affiliate_id: affiliate,
+            type,
+            payload,
+          },
+          (res) => useCache && sessionStorage.setItem(key, res)
+        );
+      }
     }
   };
 
